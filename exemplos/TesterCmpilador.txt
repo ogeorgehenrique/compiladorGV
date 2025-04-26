@@ -1,0 +1,63 @@
+Testes realizados até agora nem meu compilador
+
+
+//Testes do condicional SE
+se((12 == 12) && (1 <= 2)){
+    escrever("deu certo");
+    se(x >= e || 12 == 12){
+        ler(teste);
+    }
+}
+
+se(x >= e){
+ler(teste);
+}
+
+se(1 !=12){
+escrever((25.3/3)+2.00*7+(4-34));
+}
+
+
+if(i >= 3){
+        printf("deu certo");
+    }
+    else{
+        printf("ñ deu certo");
+    }
+
+
+//testes do condicional SENAO - vai acusar um erro 
+senao{
+    escrever("ñ deu certo");
+    } 
+se(i >= 3){
+        escrever("deu certo");
+    }
+
+se(i >= 3){
+        escrever("deu certo");
+}
+senao{
+    escrever("ñ deu certo");
+}
+senao{
+    escrever("ñ deu certo");
+    } 
+se(i >= 3){
+        escrever("deu certo");
+    }
+      
+
+
+//testes da criação de funcoes 
+
+int soma(int a, int b){
+ escreva("teste");
+}
+string juntar(string nome1, string nome2) {
+escreva("teste");
+}
+
+
+
+   

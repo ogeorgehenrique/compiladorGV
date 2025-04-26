@@ -48,24 +48,26 @@ A linguagem implementada é capaz de manipular:
 ---
 
 ## 📦 Estrutura do Projeto
-CompiladorGeorge/
+```bash
+CompiladorGV/
 ├── README.md
 ├── grammar/
-│   └── CompiladorGeorge.g4        # Gramática ANTLR
+│   └── CompiladorGV.g4             # Gramática ANTLR
 ├── src/
-│   ├── scanner.py                 # Analisador Léxico
-│   ├── parser.py                  # Analisador Sintático
+│   ├── scanner.py                  # Analisador Léxico
+│   ├── parser.py                   # Analisador Sintático
 │   └── ast_generator.py (opcional) # AST Generator
 ├── exemplos/
-│   ├── triangulo_pascal.txt       # Exemplo de programa
+│   ├── triangulo_pascal.txt        # Exemplo de programa
 │   ├── classificacao_triangulo.txt # Exemplo de programa
 ├── docs/
 │   ├── ASTs/
 │   └── Relatorio_Compilador.pdf
 ├── .gitignore
 └── LICENSE (opcional)
-
+```
 ---
+
 
 ## 🚀 Como Executar
 

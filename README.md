@@ -47,55 +47,68 @@ A linguagem implementada é capaz de manipular:
 
 ---
 
-## 📦 Estrutura do Projeto
+## 📂 Estrutura do Projeto
+
 ```bash
 CompiladorGV/
 ├── README.md
 ├── grammar/
-│   └── CompiladorGV.g4             # Gramática ANTLR
+│   └── CompiladorGV.g4            # Gramática ANTLR
 ├── src/
-│   ├── scanner.py                  # Analisador Léxico
-│   ├── parser.py                   # Analisador Sintático
-│   └── ast_generator.py (opcional) # AST Generator
+│   ├── scanner.py                 # Analisador Léxico
+│   ├── parser.py                  # Analisador Sintático
+│   └── ast_generator.py           # Gerador de AST (opcional)
 ├── exemplos/
-│   ├── triangulo_pascal.txt        # Exemplo de programa
-│   ├── classificacao_triangulo.txt # Exemplo de programa
+│   ├── triangulo_pascal.txt       # Exemplo de programa
+│   ├── classificacao_triangulo.txt# Exemplo de programa
 ├── docs/
-│   ├── ASTs/
-│   └── Relatorio_Compilador.pdf
+│   ├── ASTs/                      # ASTs geradas
+│   └── Relatorio_Compilador.pdf   # Relatório final
 ├── .gitignore
 └── LICENSE (opcional)
 ```
----
 
+---
 
 ## 🚀 Como Executar
 
 ### 1. Instalar dependências
 
-- [Python 3.x](https://www.python.org/) (ou Java)
+- [Python 3.x](https://www.python.org/)
+- [Java JDK](https://www.oracle.com/java/technologies/javase-downloads.html) (requisito para o ANTLR)
 - [ANTLR 4](https://www.antlr.org/)
 - [Graphviz](https://graphviz.gitlab.io/)
 
-### 2. Gerar os arquivos do ANTLR
+### 2. Gerar arquivos ANTLR
 
 ```bash
-# Exemplo em Python
 antlr4 -Dlanguage=Python3 -o src/ grammar/CompiladorGV.g4
+```
 
-📋 Programas de Teste
-	•	Triângulo de Pascal:
-Imprime as linhas do triângulo de Pascal até n linhas.
-	•	Classificação de Triângulos:
-Lê três lados e classifica como equilátero, isósceles ou escaleno.
+### 3. Executar o compilador
 
-⸻
+```bash
+python src/main.py caminho/do/arquivo.exemplo
+```
 
-📄 Licença
+---
+
+## 📋 Programas de Teste
+
+- **Triângulo de Pascal:**  
+  Imprime as linhas do triângulo de Pascal até `n` linhas.
+
+- **Classificação de Triângulos:**  
+  Lê três lados e classifica como equilátero, isósceles ou escaleno.
+
+---
+
+## 📄 Licença
 
 Projeto acadêmico de uso livre para fins educacionais.
 
-⸻
+---
 
-✍️ Autor
+## ✍️ Autor
 
+- **George Henrique Almeida da Silva**

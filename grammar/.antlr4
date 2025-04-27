@@ -1,0 +1,9 @@
+{
+  "input": "grammar/CompiladorGV.g4",
+  "output": "src/",
+  "antlr4": {
+    "language": "Python3",
+    "listener": true,
+    "visitor": true
+  }
+}

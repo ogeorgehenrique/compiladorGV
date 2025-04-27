@@ -1,4 +1,4 @@
-grammar compiladorGv;
+grammar CompiladorGV;
 
 // ---------------- TOKENS ----------------
 LEIA: 'leia';
@@ -165,3 +165,10 @@ bloco
 bloco_funcao
     : ABRE_CHAVE comandos* comando_retorno FECHA_CHAVE
     ;
+
+
+//ERRO: . { raise Exception("Símbolo inválido: " + getText()) };
+//ERRO: . { raise RuntimeError("Símbolo inválido"); };
+//ERRO: . { System.err.println("ERRO LÉXICO [Linha " + getLine() + ", Coluna " + getCharPositionInLine() + "]: Símbolo '" + getText() + "' inválido."); };
+//ERRO: . { raise RuntimeError(f"ERRO LÉXICO [Linha {self._line}, Coluna {self._column}]: Símbolo '{self.text}' inválido") };
+ERRO: . { raise Exception("Símbolo inválido: " + getText()) };

@@ -1,0 +1,5 @@
+int main() {
+        escreva"Total maior que 10");
+    retorna 0;
+    %
+}

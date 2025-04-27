@@ -34,7 +34,6 @@ INTEIRO=33
 FLOAT=34
 ID=35
 WS=36
-ERRO=37
 'leia'=1
 'escreva'=2
 'se'=3

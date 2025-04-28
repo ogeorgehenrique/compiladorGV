@@ -148,15 +148,30 @@ operador
     | RECEBE
     ;
 
-expressao
+lista_argumentos
+    : expressao (',' expressao)*
+    ;
+    
+// expressao
+//     : expressao op=(MULT | DIV) expressao
+//     | expressao op=(PLUS | MINUS) expressao
+//     | ABRE_PAR expressao FECHA_PAR
+//     | INTEIRO
+//     | FLOAT
+//     | STRING
+//     | ID
+//     ;
+ expressao
     : expressao op=(MULT | DIV) expressao
     | expressao op=(PLUS | MINUS) expressao
+    | ID ABRE_PAR lista_argumentos? FECHA_PAR    // CHAMADA DE FUNÇÃO!!!
     | ABRE_PAR expressao FECHA_PAR
     | INTEIRO
     | FLOAT
     | STRING
     | ID
     ;
+
 
 bloco
     : ABRE_CHAVE comandos+ FECHA_CHAVE
@@ -171,4 +186,5 @@ bloco_funcao
 //ERRO: . { raise RuntimeError("Símbolo inválido"); };
 //ERRO: . { System.err.println("ERRO LÉXICO [Linha " + getLine() + ", Coluna " + getCharPositionInLine() + "]: Símbolo '" + getText() + "' inválido."); };
 //ERRO: . { raise RuntimeError(f"ERRO LÉXICO [Linha {self._line}, Coluna {self._column}]: Símbolo '{self.text}' inválido") };
-ERRO: . { raise Exception("Símbolo inválido: " + getText()) };
+//ERRO: . { raise Exception("Símbolo inválido: " + getText()) };
+ERRO: . { print(f"ERRO LÉXICO [Linha {self.line}, Coluna {self.column+1}]: Símbolo '{self.text}' inválido."); };

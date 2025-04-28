@@ -1,5 +1,22 @@
+int soma(int a, int b) {
+    int resultado = a + b;
+    retorna resultado;
+}
+
 int main() {
-        escreva"Total maior que 10");
+    int i = 0;
+    int total = 0;
+
+    enquanto(i < 5) {
+        total = total + soma(i, 2);
+        i = i + 1;
+    }
+
+    se(total > 10) {
+        escreva("Total maior que 10");
+    } senao {
+        escreva("Total menor ou igual a 10");
+    }
+
     retorna 0;
-    %
 }

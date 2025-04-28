@@ -1,0 +1,28 @@
+int main() {
+    int linhas = 5;
+    int i = 0;
+    int j = 0;
+    int numero = 1;
+    int espaco = 0;
+
+    para(i = 0; i < linhas; i = i + 1) {
+        para(espaco = 1; espaco <= linhas - i; espaco = espaco + 1) {
+            escreva(" ");
+        }
+        
+        para(j = 0; j <= i; j = j + 1) {
+            se(j == 0 || i == 0) {
+                numero = 1;
+            }
+            senao {
+                numero = numero * (i - j + 1) / j;
+            }
+            escreva(numero);
+            escreva(" ");
+        }
+        
+        escreva("\n");
+    }
+
+    retorna 0;
+}

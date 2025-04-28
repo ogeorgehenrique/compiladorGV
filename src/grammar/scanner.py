@@ -1,4 +1,6 @@
-#Scanner.py (Léxico): responsavel por reconhecer palavras (tokens)
+#Scanner.py (Léxico): responsavel por reconhecer palavras (tokens) 
+# O scanner vê tudo como tokens: TIPO_INT, ID, ABRE_PAR, STRING, FECHA_PAR, RETORNA, INTEIRO, FECHA_CHAVE
+
 from antlr4 import *
 from CompiladorGVLexer import CompiladorGVLexer
 from MyLexerErrorListener import MyLexerErrorListener

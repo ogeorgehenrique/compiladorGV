@@ -130,7 +130,7 @@ public class CompiladorGVLexer extends Lexer {
 	private void ERRO_action(RuleContext _localctx, int actionIndex) {
 		switch (actionIndex) {
 		case 0:
-			 raise Exception("Símbolo inválido: " + getText()) 
+			 print(f"ERRO LÉXICO [Linha {self.line}, Coluna {self.column+1}]: Símbolo '{self.text}' inválido."); 
 			break;
 		}
 	}

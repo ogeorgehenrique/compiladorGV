@@ -10,88 +10,94 @@ else:
 
 def serializedATN():
     return [
-        4,1,36,236,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
+        4,1,37,252,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
         6,2,7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,
         2,14,7,14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,20,
-        7,20,2,21,7,21,1,0,4,0,46,8,0,11,0,12,0,47,1,1,1,1,1,1,1,1,1,1,1,
-        1,1,1,1,1,1,1,1,1,3,1,60,8,1,1,2,1,2,1,2,1,2,3,2,66,8,2,1,2,1,2,
-        1,2,1,3,1,3,1,3,3,3,74,8,3,1,3,1,3,1,3,1,4,1,4,1,4,5,4,82,8,4,10,
-        4,12,4,85,9,4,1,5,1,5,1,5,1,6,1,6,1,6,5,6,93,8,6,10,6,12,6,96,9,
-        6,1,7,1,7,1,7,1,7,1,8,1,8,1,8,1,8,1,8,1,8,1,9,1,9,1,9,1,9,3,9,112,
-        8,9,1,9,1,9,1,9,1,10,1,10,1,10,1,10,1,10,1,10,1,10,3,10,124,8,10,
-        1,11,1,11,1,11,1,11,1,11,1,11,1,11,1,11,1,11,1,11,1,12,1,12,1,12,
-        1,12,1,12,1,12,1,13,1,13,1,13,1,14,1,14,1,14,1,14,3,14,149,8,14,
-        1,14,1,14,1,14,1,14,1,14,3,14,156,8,14,1,14,3,14,159,8,14,1,15,1,
-        15,1,15,1,15,1,16,1,16,1,16,1,16,1,16,3,16,170,8,16,1,17,1,17,1,
-        17,1,17,1,17,1,17,1,17,1,17,1,17,3,17,181,8,17,1,17,1,17,1,17,1,
-        17,1,17,1,17,5,17,189,8,17,10,17,12,17,192,9,17,1,18,1,18,1,19,1,
-        19,1,19,1,19,1,19,1,19,1,19,1,19,1,19,3,19,205,8,19,1,19,1,19,1,
-        19,1,19,1,19,1,19,5,19,213,8,19,10,19,12,19,216,9,19,1,20,1,20,4,
-        20,220,8,20,11,20,12,20,221,1,20,1,20,1,21,1,21,5,21,228,8,21,10,
-        21,12,21,231,9,21,1,21,1,21,1,21,1,21,0,2,34,38,22,0,2,4,6,8,10,
-        12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,0,4,1,0,8,9,2,0,
-        16,16,23,28,1,0,21,22,1,0,19,20,245,0,45,1,0,0,0,2,59,1,0,0,0,4,
-        61,1,0,0,0,6,70,1,0,0,0,8,78,1,0,0,0,10,86,1,0,0,0,12,89,1,0,0,0,
-        14,97,1,0,0,0,16,101,1,0,0,0,18,107,1,0,0,0,20,116,1,0,0,0,22,125,
-        1,0,0,0,24,135,1,0,0,0,26,141,1,0,0,0,28,158,1,0,0,0,30,160,1,0,
-        0,0,32,169,1,0,0,0,34,180,1,0,0,0,36,193,1,0,0,0,38,204,1,0,0,0,
-        40,217,1,0,0,0,42,225,1,0,0,0,44,46,3,2,1,0,45,44,1,0,0,0,46,47,
-        1,0,0,0,47,45,1,0,0,0,47,48,1,0,0,0,48,1,1,0,0,0,49,60,3,4,2,0,50,
-        60,3,6,3,0,51,60,3,14,7,0,52,60,3,16,8,0,53,60,3,18,9,0,54,60,3,
-        20,10,0,55,60,3,22,11,0,56,60,3,24,12,0,57,60,3,26,13,0,58,60,3,
-        28,14,0,59,49,1,0,0,0,59,50,1,0,0,0,59,51,1,0,0,0,59,52,1,0,0,0,
-        59,53,1,0,0,0,59,54,1,0,0,0,59,55,1,0,0,0,59,56,1,0,0,0,59,57,1,
-        0,0,0,59,58,1,0,0,0,60,3,1,0,0,0,61,62,7,0,0,0,62,63,5,35,0,0,63,
-        65,5,10,0,0,64,66,3,8,4,0,65,64,1,0,0,0,65,66,1,0,0,0,66,67,1,0,
-        0,0,67,68,5,11,0,0,68,69,3,42,21,0,69,5,1,0,0,0,70,71,5,35,0,0,71,
-        73,5,10,0,0,72,74,3,12,6,0,73,72,1,0,0,0,73,74,1,0,0,0,74,75,1,0,
-        0,0,75,76,5,11,0,0,76,77,5,15,0,0,77,7,1,0,0,0,78,83,3,10,5,0,79,
-        80,5,14,0,0,80,82,3,10,5,0,81,79,1,0,0,0,82,85,1,0,0,0,83,81,1,0,
-        0,0,83,84,1,0,0,0,84,9,1,0,0,0,85,83,1,0,0,0,86,87,7,0,0,0,87,88,
-        5,35,0,0,88,11,1,0,0,0,89,94,3,38,19,0,90,91,5,14,0,0,91,93,3,38,
-        19,0,92,90,1,0,0,0,93,96,1,0,0,0,94,92,1,0,0,0,94,95,1,0,0,0,95,
-        13,1,0,0,0,96,94,1,0,0,0,97,98,5,7,0,0,98,99,3,38,19,0,99,100,5,
-        15,0,0,100,15,1,0,0,0,101,102,5,1,0,0,102,103,5,10,0,0,103,104,5,
-        35,0,0,104,105,5,11,0,0,105,106,5,15,0,0,106,17,1,0,0,0,107,108,
-        5,2,0,0,108,111,5,10,0,0,109,112,5,32,0,0,110,112,3,38,19,0,111,
-        109,1,0,0,0,111,110,1,0,0,0,112,113,1,0,0,0,113,114,5,11,0,0,114,
-        115,5,15,0,0,115,19,1,0,0,0,116,117,5,3,0,0,117,118,5,10,0,0,118,
-        119,3,34,17,0,119,120,5,11,0,0,120,123,3,40,20,0,121,122,5,4,0,0,
-        122,124,3,40,20,0,123,121,1,0,0,0,123,124,1,0,0,0,124,21,1,0,0,0,
-        125,126,5,5,0,0,126,127,5,10,0,0,127,128,3,30,15,0,128,129,5,15,
-        0,0,129,130,3,34,17,0,130,131,5,15,0,0,131,132,3,32,16,0,132,133,
-        5,11,0,0,133,134,3,40,20,0,134,23,1,0,0,0,135,136,5,6,0,0,136,137,
-        5,10,0,0,137,138,3,34,17,0,138,139,5,11,0,0,139,140,3,40,20,0,140,
-        25,1,0,0,0,141,142,3,30,15,0,142,143,5,15,0,0,143,27,1,0,0,0,144,
-        145,5,8,0,0,145,148,5,35,0,0,146,147,5,16,0,0,147,149,3,38,19,0,
-        148,146,1,0,0,0,148,149,1,0,0,0,149,150,1,0,0,0,150,159,5,15,0,0,
-        151,152,5,9,0,0,152,155,5,35,0,0,153,154,5,16,0,0,154,156,3,38,19,
-        0,155,153,1,0,0,0,155,156,1,0,0,0,156,157,1,0,0,0,157,159,5,15,0,
-        0,158,144,1,0,0,0,158,151,1,0,0,0,159,29,1,0,0,0,160,161,5,35,0,
-        0,161,162,5,16,0,0,162,163,3,38,19,0,163,31,1,0,0,0,164,165,5,35,
-        0,0,165,170,5,17,0,0,166,167,5,35,0,0,167,170,5,18,0,0,168,170,3,
-        30,15,0,169,164,1,0,0,0,169,166,1,0,0,0,169,168,1,0,0,0,170,33,1,
-        0,0,0,171,172,6,17,-1,0,172,173,3,38,19,0,173,174,3,36,18,0,174,
-        175,3,38,19,0,175,181,1,0,0,0,176,177,5,10,0,0,177,178,3,34,17,0,
-        178,179,5,11,0,0,179,181,1,0,0,0,180,171,1,0,0,0,180,176,1,0,0,0,
-        181,190,1,0,0,0,182,183,10,3,0,0,183,184,5,29,0,0,184,189,3,34,17,
-        4,185,186,10,2,0,0,186,187,5,30,0,0,187,189,3,34,17,3,188,182,1,
-        0,0,0,188,185,1,0,0,0,189,192,1,0,0,0,190,188,1,0,0,0,190,191,1,
-        0,0,0,191,35,1,0,0,0,192,190,1,0,0,0,193,194,7,1,0,0,194,37,1,0,
-        0,0,195,196,6,19,-1,0,196,197,5,10,0,0,197,198,3,38,19,0,198,199,
-        5,11,0,0,199,205,1,0,0,0,200,205,5,33,0,0,201,205,5,34,0,0,202,205,
-        5,32,0,0,203,205,5,35,0,0,204,195,1,0,0,0,204,200,1,0,0,0,204,201,
-        1,0,0,0,204,202,1,0,0,0,204,203,1,0,0,0,205,214,1,0,0,0,206,207,
-        10,7,0,0,207,208,7,2,0,0,208,213,3,38,19,8,209,210,10,6,0,0,210,
-        211,7,3,0,0,211,213,3,38,19,7,212,206,1,0,0,0,212,209,1,0,0,0,213,
-        216,1,0,0,0,214,212,1,0,0,0,214,215,1,0,0,0,215,39,1,0,0,0,216,214,
-        1,0,0,0,217,219,5,12,0,0,218,220,3,2,1,0,219,218,1,0,0,0,220,221,
-        1,0,0,0,221,219,1,0,0,0,221,222,1,0,0,0,222,223,1,0,0,0,223,224,
-        5,13,0,0,224,41,1,0,0,0,225,229,5,12,0,0,226,228,3,2,1,0,227,226,
-        1,0,0,0,228,231,1,0,0,0,229,227,1,0,0,0,229,230,1,0,0,0,230,232,
-        1,0,0,0,231,229,1,0,0,0,232,233,3,14,7,0,233,234,5,13,0,0,234,43,
-        1,0,0,0,20,47,59,65,73,83,94,111,123,148,155,158,169,180,188,190,
-        204,212,214,221,229
+        7,20,2,21,7,21,2,22,7,22,1,0,4,0,48,8,0,11,0,12,0,49,1,1,1,1,1,1,
+        1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,62,8,1,1,2,1,2,1,2,1,2,3,2,68,8,
+        2,1,2,1,2,1,2,1,3,1,3,1,3,3,3,76,8,3,1,3,1,3,1,3,1,4,1,4,1,4,5,4,
+        84,8,4,10,4,12,4,87,9,4,1,5,1,5,1,5,1,6,1,6,1,6,5,6,95,8,6,10,6,
+        12,6,98,9,6,1,7,1,7,1,7,1,7,1,8,1,8,1,8,1,8,1,8,1,8,1,9,1,9,1,9,
+        1,9,3,9,114,8,9,1,9,1,9,1,9,1,10,1,10,1,10,1,10,1,10,1,10,1,10,3,
+        10,126,8,10,1,11,1,11,1,11,1,11,1,11,1,11,1,11,1,11,1,11,1,11,1,
+        12,1,12,1,12,1,12,1,12,1,12,1,13,1,13,1,13,1,14,1,14,1,14,1,14,3,
+        14,151,8,14,1,14,1,14,1,14,1,14,1,14,3,14,158,8,14,1,14,3,14,161,
+        8,14,1,15,1,15,1,15,1,15,1,16,1,16,1,16,1,16,1,16,3,16,172,8,16,
+        1,17,1,17,1,17,1,17,1,17,1,17,1,17,1,17,1,17,3,17,183,8,17,1,17,
+        1,17,1,17,1,17,1,17,1,17,5,17,191,8,17,10,17,12,17,194,9,17,1,18,
+        1,18,1,19,1,19,1,19,5,19,201,8,19,10,19,12,19,204,9,19,1,20,1,20,
+        1,20,1,20,3,20,210,8,20,1,20,1,20,1,20,1,20,1,20,1,20,1,20,1,20,
+        1,20,3,20,221,8,20,1,20,1,20,1,20,1,20,1,20,1,20,5,20,229,8,20,10,
+        20,12,20,232,9,20,1,21,1,21,4,21,236,8,21,11,21,12,21,237,1,21,1,
+        21,1,22,1,22,5,22,244,8,22,10,22,12,22,247,9,22,1,22,1,22,1,22,1,
+        22,0,2,34,40,23,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,
+        36,38,40,42,44,0,4,1,0,8,9,2,0,16,16,23,28,1,0,21,22,1,0,19,20,263,
+        0,47,1,0,0,0,2,61,1,0,0,0,4,63,1,0,0,0,6,72,1,0,0,0,8,80,1,0,0,0,
+        10,88,1,0,0,0,12,91,1,0,0,0,14,99,1,0,0,0,16,103,1,0,0,0,18,109,
+        1,0,0,0,20,118,1,0,0,0,22,127,1,0,0,0,24,137,1,0,0,0,26,143,1,0,
+        0,0,28,160,1,0,0,0,30,162,1,0,0,0,32,171,1,0,0,0,34,182,1,0,0,0,
+        36,195,1,0,0,0,38,197,1,0,0,0,40,220,1,0,0,0,42,233,1,0,0,0,44,241,
+        1,0,0,0,46,48,3,2,1,0,47,46,1,0,0,0,48,49,1,0,0,0,49,47,1,0,0,0,
+        49,50,1,0,0,0,50,1,1,0,0,0,51,62,3,4,2,0,52,62,3,6,3,0,53,62,3,14,
+        7,0,54,62,3,16,8,0,55,62,3,18,9,0,56,62,3,20,10,0,57,62,3,22,11,
+        0,58,62,3,24,12,0,59,62,3,26,13,0,60,62,3,28,14,0,61,51,1,0,0,0,
+        61,52,1,0,0,0,61,53,1,0,0,0,61,54,1,0,0,0,61,55,1,0,0,0,61,56,1,
+        0,0,0,61,57,1,0,0,0,61,58,1,0,0,0,61,59,1,0,0,0,61,60,1,0,0,0,62,
+        3,1,0,0,0,63,64,7,0,0,0,64,65,5,35,0,0,65,67,5,10,0,0,66,68,3,8,
+        4,0,67,66,1,0,0,0,67,68,1,0,0,0,68,69,1,0,0,0,69,70,5,11,0,0,70,
+        71,3,44,22,0,71,5,1,0,0,0,72,73,5,35,0,0,73,75,5,10,0,0,74,76,3,
+        12,6,0,75,74,1,0,0,0,75,76,1,0,0,0,76,77,1,0,0,0,77,78,5,11,0,0,
+        78,79,5,15,0,0,79,7,1,0,0,0,80,85,3,10,5,0,81,82,5,14,0,0,82,84,
+        3,10,5,0,83,81,1,0,0,0,84,87,1,0,0,0,85,83,1,0,0,0,85,86,1,0,0,0,
+        86,9,1,0,0,0,87,85,1,0,0,0,88,89,7,0,0,0,89,90,5,35,0,0,90,11,1,
+        0,0,0,91,96,3,40,20,0,92,93,5,14,0,0,93,95,3,40,20,0,94,92,1,0,0,
+        0,95,98,1,0,0,0,96,94,1,0,0,0,96,97,1,0,0,0,97,13,1,0,0,0,98,96,
+        1,0,0,0,99,100,5,7,0,0,100,101,3,40,20,0,101,102,5,15,0,0,102,15,
+        1,0,0,0,103,104,5,1,0,0,104,105,5,10,0,0,105,106,5,35,0,0,106,107,
+        5,11,0,0,107,108,5,15,0,0,108,17,1,0,0,0,109,110,5,2,0,0,110,113,
+        5,10,0,0,111,114,5,32,0,0,112,114,3,40,20,0,113,111,1,0,0,0,113,
+        112,1,0,0,0,114,115,1,0,0,0,115,116,5,11,0,0,116,117,5,15,0,0,117,
+        19,1,0,0,0,118,119,5,3,0,0,119,120,5,10,0,0,120,121,3,34,17,0,121,
+        122,5,11,0,0,122,125,3,42,21,0,123,124,5,4,0,0,124,126,3,42,21,0,
+        125,123,1,0,0,0,125,126,1,0,0,0,126,21,1,0,0,0,127,128,5,5,0,0,128,
+        129,5,10,0,0,129,130,3,30,15,0,130,131,5,15,0,0,131,132,3,34,17,
+        0,132,133,5,15,0,0,133,134,3,32,16,0,134,135,5,11,0,0,135,136,3,
+        42,21,0,136,23,1,0,0,0,137,138,5,6,0,0,138,139,5,10,0,0,139,140,
+        3,34,17,0,140,141,5,11,0,0,141,142,3,42,21,0,142,25,1,0,0,0,143,
+        144,3,30,15,0,144,145,5,15,0,0,145,27,1,0,0,0,146,147,5,8,0,0,147,
+        150,5,35,0,0,148,149,5,16,0,0,149,151,3,40,20,0,150,148,1,0,0,0,
+        150,151,1,0,0,0,151,152,1,0,0,0,152,161,5,15,0,0,153,154,5,9,0,0,
+        154,157,5,35,0,0,155,156,5,16,0,0,156,158,3,40,20,0,157,155,1,0,
+        0,0,157,158,1,0,0,0,158,159,1,0,0,0,159,161,5,15,0,0,160,146,1,0,
+        0,0,160,153,1,0,0,0,161,29,1,0,0,0,162,163,5,35,0,0,163,164,5,16,
+        0,0,164,165,3,40,20,0,165,31,1,0,0,0,166,167,5,35,0,0,167,172,5,
+        17,0,0,168,169,5,35,0,0,169,172,5,18,0,0,170,172,3,30,15,0,171,166,
+        1,0,0,0,171,168,1,0,0,0,171,170,1,0,0,0,172,33,1,0,0,0,173,174,6,
+        17,-1,0,174,175,3,40,20,0,175,176,3,36,18,0,176,177,3,40,20,0,177,
+        183,1,0,0,0,178,179,5,10,0,0,179,180,3,34,17,0,180,181,5,11,0,0,
+        181,183,1,0,0,0,182,173,1,0,0,0,182,178,1,0,0,0,183,192,1,0,0,0,
+        184,185,10,3,0,0,185,186,5,29,0,0,186,191,3,34,17,4,187,188,10,2,
+        0,0,188,189,5,30,0,0,189,191,3,34,17,3,190,184,1,0,0,0,190,187,1,
+        0,0,0,191,194,1,0,0,0,192,190,1,0,0,0,192,193,1,0,0,0,193,35,1,0,
+        0,0,194,192,1,0,0,0,195,196,7,1,0,0,196,37,1,0,0,0,197,202,3,40,
+        20,0,198,199,5,14,0,0,199,201,3,40,20,0,200,198,1,0,0,0,201,204,
+        1,0,0,0,202,200,1,0,0,0,202,203,1,0,0,0,203,39,1,0,0,0,204,202,1,
+        0,0,0,205,206,6,20,-1,0,206,207,5,35,0,0,207,209,5,10,0,0,208,210,
+        3,38,19,0,209,208,1,0,0,0,209,210,1,0,0,0,210,211,1,0,0,0,211,221,
+        5,11,0,0,212,213,5,10,0,0,213,214,3,40,20,0,214,215,5,11,0,0,215,
+        221,1,0,0,0,216,221,5,33,0,0,217,221,5,34,0,0,218,221,5,32,0,0,219,
+        221,5,35,0,0,220,205,1,0,0,0,220,212,1,0,0,0,220,216,1,0,0,0,220,
+        217,1,0,0,0,220,218,1,0,0,0,220,219,1,0,0,0,221,230,1,0,0,0,222,
+        223,10,8,0,0,223,224,7,2,0,0,224,229,3,40,20,9,225,226,10,7,0,0,
+        226,227,7,3,0,0,227,229,3,40,20,8,228,222,1,0,0,0,228,225,1,0,0,
+        0,229,232,1,0,0,0,230,228,1,0,0,0,230,231,1,0,0,0,231,41,1,0,0,0,
+        232,230,1,0,0,0,233,235,5,12,0,0,234,236,3,2,1,0,235,234,1,0,0,0,
+        236,237,1,0,0,0,237,235,1,0,0,0,237,238,1,0,0,0,238,239,1,0,0,0,
+        239,240,5,13,0,0,240,43,1,0,0,0,241,245,5,12,0,0,242,244,3,2,1,0,
+        243,242,1,0,0,0,244,247,1,0,0,0,245,243,1,0,0,0,245,246,1,0,0,0,
+        246,248,1,0,0,0,247,245,1,0,0,0,248,249,3,14,7,0,249,250,5,13,0,
+        0,250,45,1,0,0,0,22,49,61,67,75,85,96,113,125,150,157,160,171,182,
+        190,192,202,209,220,228,230,237,245
     ]
 
 class CompiladorGVParser ( Parser ):
@@ -117,7 +123,7 @@ class CompiladorGVParser ( Parser ):
                       "PLUS", "MINUS", "MULT", "DIV", "IGUAL_EXATO", "DIFERENTE", 
                       "MAIOR_Q", "MENOR_Q", "MENOR_IGUAL_Q", "MAIOR_IGUAL_Q", 
                       "AND", "OR", "NOT", "STRING", "INTEIRO", "FLOAT", 
-                      "ID", "WS" ]
+                      "ID", "WS", "ERRO" ]
 
     RULE_inicio = 0
     RULE_comandos = 1
@@ -138,16 +144,17 @@ class CompiladorGVParser ( Parser ):
     RULE_incremento = 16
     RULE_condicao = 17
     RULE_operador = 18
-    RULE_expressao = 19
-    RULE_bloco = 20
-    RULE_bloco_funcao = 21
+    RULE_lista_argumentos = 19
+    RULE_expressao = 20
+    RULE_bloco = 21
+    RULE_bloco_funcao = 22
 
     ruleNames =  [ "inicio", "comandos", "comando_declaracao_funcao", "comando_chamada_funcao", 
                    "parametros", "parametro", "argumentos", "comando_retorno", 
                    "comando_ler", "comando_escrever", "comando_se", "comando_para", 
                    "comando_enquanto", "comando_atribuicao", "comando_declaracao", 
-                   "atribuicao", "incremento", "condicao", "operador", "expressao", 
-                   "bloco", "bloco_funcao" ]
+                   "atribuicao", "incremento", "condicao", "operador", "lista_argumentos", 
+                   "expressao", "bloco", "bloco_funcao" ]
 
     EOF = Token.EOF
     LEIA=1
@@ -186,6 +193,7 @@ class CompiladorGVParser ( Parser ):
     FLOAT=34
     ID=35
     WS=36
+    ERRO=37
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
@@ -237,13 +245,13 @@ class CompiladorGVParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 45 
+            self.state = 47 
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while True:
-                self.state = 44
+                self.state = 46
                 self.comandos()
-                self.state = 47 
+                self.state = 49 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & 34359739374) != 0)):
@@ -330,66 +338,66 @@ class CompiladorGVParser ( Parser ):
         localctx = CompiladorGVParser.ComandosContext(self, self._ctx, self.state)
         self.enterRule(localctx, 2, self.RULE_comandos)
         try:
-            self.state = 59
+            self.state = 61
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,1,self._ctx)
             if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 49
+                self.state = 51
                 self.comando_declaracao_funcao()
                 pass
 
             elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 50
+                self.state = 52
                 self.comando_chamada_funcao()
                 pass
 
             elif la_ == 3:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 51
+                self.state = 53
                 self.comando_retorno()
                 pass
 
             elif la_ == 4:
                 self.enterOuterAlt(localctx, 4)
-                self.state = 52
+                self.state = 54
                 self.comando_ler()
                 pass
 
             elif la_ == 5:
                 self.enterOuterAlt(localctx, 5)
-                self.state = 53
+                self.state = 55
                 self.comando_escrever()
                 pass
 
             elif la_ == 6:
                 self.enterOuterAlt(localctx, 6)
-                self.state = 54
+                self.state = 56
                 self.comando_se()
                 pass
 
             elif la_ == 7:
                 self.enterOuterAlt(localctx, 7)
-                self.state = 55
+                self.state = 57
                 self.comando_para()
                 pass
 
             elif la_ == 8:
                 self.enterOuterAlt(localctx, 8)
-                self.state = 56
+                self.state = 58
                 self.comando_enquanto()
                 pass
 
             elif la_ == 9:
                 self.enterOuterAlt(localctx, 9)
-                self.state = 57
+                self.state = 59
                 self.comando_atribuicao()
                 pass
 
             elif la_ == 10:
                 self.enterOuterAlt(localctx, 10)
-                self.state = 58
+                self.state = 60
                 self.comando_declaracao()
                 pass
 
@@ -460,28 +468,28 @@ class CompiladorGVParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 61
+            self.state = 63
             _la = self._input.LA(1)
             if not(_la==8 or _la==9):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
                 self.consume()
-            self.state = 62
+            self.state = 64
             self.match(CompiladorGVParser.ID)
-            self.state = 63
-            self.match(CompiladorGVParser.ABRE_PAR)
             self.state = 65
+            self.match(CompiladorGVParser.ABRE_PAR)
+            self.state = 67
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if _la==8 or _la==9:
-                self.state = 64
+                self.state = 66
                 self.parametros()
 
 
-            self.state = 67
+            self.state = 69
             self.match(CompiladorGVParser.FECHA_PAR)
-            self.state = 68
+            self.state = 70
             self.bloco_funcao()
         except RecognitionException as re:
             localctx.exception = re
@@ -542,21 +550,21 @@ class CompiladorGVParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 70
+            self.state = 72
             self.match(CompiladorGVParser.ID)
-            self.state = 71
-            self.match(CompiladorGVParser.ABRE_PAR)
             self.state = 73
+            self.match(CompiladorGVParser.ABRE_PAR)
+            self.state = 75
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if (((_la) & ~0x3f) == 0 and ((1 << _la) & 64424510464) != 0):
-                self.state = 72
+                self.state = 74
                 self.argumentos()
 
 
-            self.state = 75
+            self.state = 77
             self.match(CompiladorGVParser.FECHA_PAR)
-            self.state = 76
+            self.state = 78
             self.match(CompiladorGVParser.FINAL)
         except RecognitionException as re:
             localctx.exception = re
@@ -614,17 +622,17 @@ class CompiladorGVParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 78
+            self.state = 80
             self.parametro()
-            self.state = 83
+            self.state = 85
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==14:
-                self.state = 79
+                self.state = 81
                 self.match(CompiladorGVParser.VIRGULA)
-                self.state = 80
+                self.state = 82
                 self.parametro()
-                self.state = 85
+                self.state = 87
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -680,14 +688,14 @@ class CompiladorGVParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 86
+            self.state = 88
             _la = self._input.LA(1)
             if not(_la==8 or _la==9):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
                 self.consume()
-            self.state = 87
+            self.state = 89
             self.match(CompiladorGVParser.ID)
         except RecognitionException as re:
             localctx.exception = re
@@ -745,17 +753,17 @@ class CompiladorGVParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 89
+            self.state = 91
             self.expressao(0)
-            self.state = 94
+            self.state = 96
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==14:
-                self.state = 90
+                self.state = 92
                 self.match(CompiladorGVParser.VIRGULA)
-                self.state = 91
+                self.state = 93
                 self.expressao(0)
-                self.state = 96
+                self.state = 98
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -811,11 +819,11 @@ class CompiladorGVParser ( Parser ):
         self.enterRule(localctx, 14, self.RULE_comando_retorno)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 97
-            self.match(CompiladorGVParser.RETORNA)
-            self.state = 98
-            self.expressao(0)
             self.state = 99
+            self.match(CompiladorGVParser.RETORNA)
+            self.state = 100
+            self.expressao(0)
+            self.state = 101
             self.match(CompiladorGVParser.FINAL)
         except RecognitionException as re:
             localctx.exception = re
@@ -874,15 +882,15 @@ class CompiladorGVParser ( Parser ):
         self.enterRule(localctx, 16, self.RULE_comando_ler)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 101
-            self.match(CompiladorGVParser.LEIA)
-            self.state = 102
-            self.match(CompiladorGVParser.ABRE_PAR)
             self.state = 103
-            self.match(CompiladorGVParser.ID)
+            self.match(CompiladorGVParser.LEIA)
             self.state = 104
-            self.match(CompiladorGVParser.FECHA_PAR)
+            self.match(CompiladorGVParser.ABRE_PAR)
             self.state = 105
+            self.match(CompiladorGVParser.ID)
+            self.state = 106
+            self.match(CompiladorGVParser.FECHA_PAR)
+            self.state = 107
             self.match(CompiladorGVParser.FINAL)
         except RecognitionException as re:
             localctx.exception = re
@@ -945,27 +953,27 @@ class CompiladorGVParser ( Parser ):
         self.enterRule(localctx, 18, self.RULE_comando_escrever)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 107
+            self.state = 109
             self.match(CompiladorGVParser.ESCREVA)
-            self.state = 108
+            self.state = 110
             self.match(CompiladorGVParser.ABRE_PAR)
-            self.state = 111
+            self.state = 113
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,6,self._ctx)
             if la_ == 1:
-                self.state = 109
+                self.state = 111
                 self.match(CompiladorGVParser.STRING)
                 pass
 
             elif la_ == 2:
-                self.state = 110
+                self.state = 112
                 self.expressao(0)
                 pass
 
 
-            self.state = 113
+            self.state = 115
             self.match(CompiladorGVParser.FECHA_PAR)
-            self.state = 114
+            self.state = 116
             self.match(CompiladorGVParser.FINAL)
         except RecognitionException as re:
             localctx.exception = re
@@ -1033,23 +1041,23 @@ class CompiladorGVParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 116
-            self.match(CompiladorGVParser.SE)
-            self.state = 117
-            self.match(CompiladorGVParser.ABRE_PAR)
             self.state = 118
-            self.condicao(0)
+            self.match(CompiladorGVParser.SE)
             self.state = 119
-            self.match(CompiladorGVParser.FECHA_PAR)
+            self.match(CompiladorGVParser.ABRE_PAR)
             self.state = 120
+            self.condicao(0)
+            self.state = 121
+            self.match(CompiladorGVParser.FECHA_PAR)
+            self.state = 122
             self.bloco()
-            self.state = 123
+            self.state = 125
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if _la==4:
-                self.state = 121
+                self.state = 123
                 self.match(CompiladorGVParser.SENAO)
-                self.state = 122
+                self.state = 124
                 self.bloco()
 
 
@@ -1126,23 +1134,23 @@ class CompiladorGVParser ( Parser ):
         self.enterRule(localctx, 22, self.RULE_comando_para)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 125
-            self.match(CompiladorGVParser.PARA)
-            self.state = 126
-            self.match(CompiladorGVParser.ABRE_PAR)
             self.state = 127
-            self.atribuicao()
+            self.match(CompiladorGVParser.PARA)
             self.state = 128
-            self.match(CompiladorGVParser.FINAL)
+            self.match(CompiladorGVParser.ABRE_PAR)
             self.state = 129
-            self.condicao(0)
+            self.atribuicao()
             self.state = 130
             self.match(CompiladorGVParser.FINAL)
             self.state = 131
-            self.incremento()
+            self.condicao(0)
             self.state = 132
-            self.match(CompiladorGVParser.FECHA_PAR)
+            self.match(CompiladorGVParser.FINAL)
             self.state = 133
+            self.incremento()
+            self.state = 134
+            self.match(CompiladorGVParser.FECHA_PAR)
+            self.state = 135
             self.bloco()
         except RecognitionException as re:
             localctx.exception = re
@@ -1203,15 +1211,15 @@ class CompiladorGVParser ( Parser ):
         self.enterRule(localctx, 24, self.RULE_comando_enquanto)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 135
-            self.match(CompiladorGVParser.ENQUANTO)
-            self.state = 136
-            self.match(CompiladorGVParser.ABRE_PAR)
             self.state = 137
-            self.condicao(0)
+            self.match(CompiladorGVParser.ENQUANTO)
             self.state = 138
-            self.match(CompiladorGVParser.FECHA_PAR)
+            self.match(CompiladorGVParser.ABRE_PAR)
             self.state = 139
+            self.condicao(0)
+            self.state = 140
+            self.match(CompiladorGVParser.FECHA_PAR)
+            self.state = 141
             self.bloco()
         except RecognitionException as re:
             localctx.exception = re
@@ -1262,9 +1270,9 @@ class CompiladorGVParser ( Parser ):
         self.enterRule(localctx, 26, self.RULE_comando_atribuicao)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 141
+            self.state = 143
             self.atribuicao()
-            self.state = 142
+            self.state = 144
             self.match(CompiladorGVParser.FINAL)
         except RecognitionException as re:
             localctx.exception = re
@@ -1327,45 +1335,45 @@ class CompiladorGVParser ( Parser ):
         self.enterRule(localctx, 28, self.RULE_comando_declaracao)
         self._la = 0 # Token type
         try:
-            self.state = 158
+            self.state = 160
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [8]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 144
+                self.state = 146
                 self.match(CompiladorGVParser.TIPO_INT)
-                self.state = 145
+                self.state = 147
                 self.match(CompiladorGVParser.ID)
-                self.state = 148
+                self.state = 150
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 if _la==16:
-                    self.state = 146
+                    self.state = 148
                     self.match(CompiladorGVParser.RECEBE)
-                    self.state = 147
+                    self.state = 149
                     self.expressao(0)
 
 
-                self.state = 150
+                self.state = 152
                 self.match(CompiladorGVParser.FINAL)
                 pass
             elif token in [9]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 151
+                self.state = 153
                 self.match(CompiladorGVParser.TIPO_STRING)
-                self.state = 152
+                self.state = 154
                 self.match(CompiladorGVParser.ID)
-                self.state = 155
+                self.state = 157
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 if _la==16:
-                    self.state = 153
+                    self.state = 155
                     self.match(CompiladorGVParser.RECEBE)
-                    self.state = 154
+                    self.state = 156
                     self.expressao(0)
 
 
-                self.state = 157
+                self.state = 159
                 self.match(CompiladorGVParser.FINAL)
                 pass
             else:
@@ -1423,11 +1431,11 @@ class CompiladorGVParser ( Parser ):
         self.enterRule(localctx, 30, self.RULE_atribuicao)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 160
-            self.match(CompiladorGVParser.ID)
-            self.state = 161
-            self.match(CompiladorGVParser.RECEBE)
             self.state = 162
+            self.match(CompiladorGVParser.ID)
+            self.state = 163
+            self.match(CompiladorGVParser.RECEBE)
+            self.state = 164
             self.expressao(0)
         except RecognitionException as re:
             localctx.exception = re
@@ -1483,28 +1491,28 @@ class CompiladorGVParser ( Parser ):
         localctx = CompiladorGVParser.IncrementoContext(self, self._ctx, self.state)
         self.enterRule(localctx, 32, self.RULE_incremento)
         try:
-            self.state = 169
+            self.state = 171
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,11,self._ctx)
             if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 164
+                self.state = 166
                 self.match(CompiladorGVParser.ID)
-                self.state = 165
+                self.state = 167
                 self.match(CompiladorGVParser.INCREMENTO)
                 pass
 
             elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 166
+                self.state = 168
                 self.match(CompiladorGVParser.ID)
-                self.state = 167
+                self.state = 169
                 self.match(CompiladorGVParser.DECREMENTO)
                 pass
 
             elif la_ == 3:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 168
+                self.state = 170
                 self.atribuicao()
                 pass
 
@@ -1583,30 +1591,30 @@ class CompiladorGVParser ( Parser ):
         self.enterRecursionRule(localctx, 34, self.RULE_condicao, _p)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 180
+            self.state = 182
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,12,self._ctx)
             if la_ == 1:
-                self.state = 172
-                self.expressao(0)
-                self.state = 173
-                self.operador()
                 self.state = 174
+                self.expressao(0)
+                self.state = 175
+                self.operador()
+                self.state = 176
                 self.expressao(0)
                 pass
 
             elif la_ == 2:
-                self.state = 176
-                self.match(CompiladorGVParser.ABRE_PAR)
-                self.state = 177
-                self.condicao(0)
                 self.state = 178
+                self.match(CompiladorGVParser.ABRE_PAR)
+                self.state = 179
+                self.condicao(0)
+                self.state = 180
                 self.match(CompiladorGVParser.FECHA_PAR)
                 pass
 
 
             self._ctx.stop = self._input.LT(-1)
-            self.state = 190
+            self.state = 192
             self._errHandler.sync(self)
             _alt = self._interp.adaptivePredict(self._input,14,self._ctx)
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
@@ -1614,37 +1622,37 @@ class CompiladorGVParser ( Parser ):
                     if self._parseListeners is not None:
                         self.triggerExitRuleEvent()
                     _prevctx = localctx
-                    self.state = 188
+                    self.state = 190
                     self._errHandler.sync(self)
                     la_ = self._interp.adaptivePredict(self._input,13,self._ctx)
                     if la_ == 1:
                         localctx = CompiladorGVParser.CondicaoContext(self, _parentctx, _parentState)
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_condicao)
-                        self.state = 182
+                        self.state = 184
                         if not self.precpred(self._ctx, 3):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 3)")
-                        self.state = 183
+                        self.state = 185
                         self.match(CompiladorGVParser.AND)
-                        self.state = 184
+                        self.state = 186
                         self.condicao(4)
                         pass
 
                     elif la_ == 2:
                         localctx = CompiladorGVParser.CondicaoContext(self, _parentctx, _parentState)
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_condicao)
-                        self.state = 185
+                        self.state = 187
                         if not self.precpred(self._ctx, 2):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 2)")
-                        self.state = 186
+                        self.state = 188
                         self.match(CompiladorGVParser.OR)
-                        self.state = 187
+                        self.state = 189
                         self.condicao(3)
                         pass
 
              
-                self.state = 192
+                self.state = 194
                 self._errHandler.sync(self)
                 _alt = self._interp.adaptivePredict(self._input,14,self._ctx)
 
@@ -1712,13 +1720,83 @@ class CompiladorGVParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 193
+            self.state = 195
             _la = self._input.LA(1)
             if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 528547840) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
                 self.consume()
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class Lista_argumentosContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def expressao(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(CompiladorGVParser.ExpressaoContext)
+            else:
+                return self.getTypedRuleContext(CompiladorGVParser.ExpressaoContext,i)
+
+
+        def VIRGULA(self, i:int=None):
+            if i is None:
+                return self.getTokens(CompiladorGVParser.VIRGULA)
+            else:
+                return self.getToken(CompiladorGVParser.VIRGULA, i)
+
+        def getRuleIndex(self):
+            return CompiladorGVParser.RULE_lista_argumentos
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterLista_argumentos" ):
+                listener.enterLista_argumentos(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitLista_argumentos" ):
+                listener.exitLista_argumentos(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLista_argumentos" ):
+                return visitor.visitLista_argumentos(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+
+
+    def lista_argumentos(self):
+
+        localctx = CompiladorGVParser.Lista_argumentosContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 38, self.RULE_lista_argumentos)
+        self._la = 0 # Token type
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 197
+            self.expressao(0)
+            self.state = 202
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            while _la==14:
+                self.state = 198
+                self.match(CompiladorGVParser.VIRGULA)
+                self.state = 199
+                self.expressao(0)
+                self.state = 204
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -1736,8 +1814,18 @@ class CompiladorGVParser ( Parser ):
             self.parser = parser
             self.op = None # Token
 
+        def ID(self):
+            return self.getToken(CompiladorGVParser.ID, 0)
+
         def ABRE_PAR(self):
             return self.getToken(CompiladorGVParser.ABRE_PAR, 0)
+
+        def FECHA_PAR(self):
+            return self.getToken(CompiladorGVParser.FECHA_PAR, 0)
+
+        def lista_argumentos(self):
+            return self.getTypedRuleContext(CompiladorGVParser.Lista_argumentosContext,0)
+
 
         def expressao(self, i:int=None):
             if i is None:
@@ -1745,9 +1833,6 @@ class CompiladorGVParser ( Parser ):
             else:
                 return self.getTypedRuleContext(CompiladorGVParser.ExpressaoContext,i)
 
-
-        def FECHA_PAR(self):
-            return self.getToken(CompiladorGVParser.FECHA_PAR, 0)
 
         def INTEIRO(self):
             return self.getToken(CompiladorGVParser.INTEIRO, 0)
@@ -1757,9 +1842,6 @@ class CompiladorGVParser ( Parser ):
 
         def STRING(self):
             return self.getToken(CompiladorGVParser.STRING, 0)
-
-        def ID(self):
-            return self.getToken(CompiladorGVParser.ID, 0)
 
         def MULT(self):
             return self.getToken(CompiladorGVParser.MULT, 0)
@@ -1797,61 +1879,81 @@ class CompiladorGVParser ( Parser ):
         _parentState = self.state
         localctx = CompiladorGVParser.ExpressaoContext(self, self._ctx, _parentState)
         _prevctx = localctx
-        _startState = 38
-        self.enterRecursionRule(localctx, 38, self.RULE_expressao, _p)
+        _startState = 40
+        self.enterRecursionRule(localctx, 40, self.RULE_expressao, _p)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 204
+            self.state = 220
             self._errHandler.sync(self)
-            token = self._input.LA(1)
-            if token in [10]:
-                self.state = 196
+            la_ = self._interp.adaptivePredict(self._input,17,self._ctx)
+            if la_ == 1:
+                self.state = 206
+                self.match(CompiladorGVParser.ID)
+                self.state = 207
                 self.match(CompiladorGVParser.ABRE_PAR)
-                self.state = 197
-                self.expressao(0)
-                self.state = 198
+                self.state = 209
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+                if (((_la) & ~0x3f) == 0 and ((1 << _la) & 64424510464) != 0):
+                    self.state = 208
+                    self.lista_argumentos()
+
+
+                self.state = 211
                 self.match(CompiladorGVParser.FECHA_PAR)
                 pass
-            elif token in [33]:
-                self.state = 200
+
+            elif la_ == 2:
+                self.state = 212
+                self.match(CompiladorGVParser.ABRE_PAR)
+                self.state = 213
+                self.expressao(0)
+                self.state = 214
+                self.match(CompiladorGVParser.FECHA_PAR)
+                pass
+
+            elif la_ == 3:
+                self.state = 216
                 self.match(CompiladorGVParser.INTEIRO)
                 pass
-            elif token in [34]:
-                self.state = 201
+
+            elif la_ == 4:
+                self.state = 217
                 self.match(CompiladorGVParser.FLOAT)
                 pass
-            elif token in [32]:
-                self.state = 202
+
+            elif la_ == 5:
+                self.state = 218
                 self.match(CompiladorGVParser.STRING)
                 pass
-            elif token in [35]:
-                self.state = 203
+
+            elif la_ == 6:
+                self.state = 219
                 self.match(CompiladorGVParser.ID)
                 pass
-            else:
-                raise NoViableAltException(self)
+
 
             self._ctx.stop = self._input.LT(-1)
-            self.state = 214
+            self.state = 230
             self._errHandler.sync(self)
-            _alt = self._interp.adaptivePredict(self._input,17,self._ctx)
+            _alt = self._interp.adaptivePredict(self._input,19,self._ctx)
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
                 if _alt==1:
                     if self._parseListeners is not None:
                         self.triggerExitRuleEvent()
                     _prevctx = localctx
-                    self.state = 212
+                    self.state = 228
                     self._errHandler.sync(self)
-                    la_ = self._interp.adaptivePredict(self._input,16,self._ctx)
+                    la_ = self._interp.adaptivePredict(self._input,18,self._ctx)
                     if la_ == 1:
                         localctx = CompiladorGVParser.ExpressaoContext(self, _parentctx, _parentState)
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expressao)
-                        self.state = 206
-                        if not self.precpred(self._ctx, 7):
+                        self.state = 222
+                        if not self.precpred(self._ctx, 8):
                             from antlr4.error.Errors import FailedPredicateException
-                            raise FailedPredicateException(self, "self.precpred(self._ctx, 7)")
-                        self.state = 207
+                            raise FailedPredicateException(self, "self.precpred(self._ctx, 8)")
+                        self.state = 223
                         localctx.op = self._input.LT(1)
                         _la = self._input.LA(1)
                         if not(_la==21 or _la==22):
@@ -1859,18 +1961,18 @@ class CompiladorGVParser ( Parser ):
                         else:
                             self._errHandler.reportMatch(self)
                             self.consume()
-                        self.state = 208
-                        self.expressao(8)
+                        self.state = 224
+                        self.expressao(9)
                         pass
 
                     elif la_ == 2:
                         localctx = CompiladorGVParser.ExpressaoContext(self, _parentctx, _parentState)
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expressao)
-                        self.state = 209
-                        if not self.precpred(self._ctx, 6):
+                        self.state = 225
+                        if not self.precpred(self._ctx, 7):
                             from antlr4.error.Errors import FailedPredicateException
-                            raise FailedPredicateException(self, "self.precpred(self._ctx, 6)")
-                        self.state = 210
+                            raise FailedPredicateException(self, "self.precpred(self._ctx, 7)")
+                        self.state = 226
                         localctx.op = self._input.LT(1)
                         _la = self._input.LA(1)
                         if not(_la==19 or _la==20):
@@ -1878,14 +1980,14 @@ class CompiladorGVParser ( Parser ):
                         else:
                             self._errHandler.reportMatch(self)
                             self.consume()
-                        self.state = 211
-                        self.expressao(7)
+                        self.state = 227
+                        self.expressao(8)
                         pass
 
              
-                self.state = 216
+                self.state = 232
                 self._errHandler.sync(self)
-                _alt = self._interp.adaptivePredict(self._input,17,self._ctx)
+                _alt = self._interp.adaptivePredict(self._input,19,self._ctx)
 
         except RecognitionException as re:
             localctx.exception = re
@@ -1939,25 +2041,25 @@ class CompiladorGVParser ( Parser ):
     def bloco(self):
 
         localctx = CompiladorGVParser.BlocoContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 40, self.RULE_bloco)
+        self.enterRule(localctx, 42, self.RULE_bloco)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 217
+            self.state = 233
             self.match(CompiladorGVParser.ABRE_CHAVE)
-            self.state = 219 
+            self.state = 235 
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while True:
-                self.state = 218
+                self.state = 234
                 self.comandos()
-                self.state = 221 
+                self.state = 237 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & 34359739374) != 0)):
                     break
 
-            self.state = 223
+            self.state = 239
             self.match(CompiladorGVParser.FECHA_CHAVE)
         except RecognitionException as re:
             localctx.exception = re
@@ -2015,25 +2117,25 @@ class CompiladorGVParser ( Parser ):
     def bloco_funcao(self):
 
         localctx = CompiladorGVParser.Bloco_funcaoContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 42, self.RULE_bloco_funcao)
+        self.enterRule(localctx, 44, self.RULE_bloco_funcao)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 225
+            self.state = 241
             self.match(CompiladorGVParser.ABRE_CHAVE)
-            self.state = 229
+            self.state = 245
             self._errHandler.sync(self)
-            _alt = self._interp.adaptivePredict(self._input,19,self._ctx)
+            _alt = self._interp.adaptivePredict(self._input,21,self._ctx)
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
                 if _alt==1:
-                    self.state = 226
+                    self.state = 242
                     self.comandos() 
-                self.state = 231
+                self.state = 247
                 self._errHandler.sync(self)
-                _alt = self._interp.adaptivePredict(self._input,19,self._ctx)
+                _alt = self._interp.adaptivePredict(self._input,21,self._ctx)
 
-            self.state = 232
+            self.state = 248
             self.comando_retorno()
-            self.state = 233
+            self.state = 249
             self.match(CompiladorGVParser.FECHA_CHAVE)
         except RecognitionException as re:
             localctx.exception = re
@@ -2049,7 +2151,7 @@ class CompiladorGVParser ( Parser ):
         if self._predicates == None:
             self._predicates = dict()
         self._predicates[17] = self.condicao_sempred
-        self._predicates[19] = self.expressao_sempred
+        self._predicates[20] = self.expressao_sempred
         pred = self._predicates.get(ruleIndex, None)
         if pred is None:
             raise Exception("No predicate with index:" + str(ruleIndex))
@@ -2067,11 +2169,11 @@ class CompiladorGVParser ( Parser ):
 
     def expressao_sempred(self, localctx:ExpressaoContext, predIndex:int):
             if predIndex == 2:
-                return self.precpred(self._ctx, 7)
+                return self.precpred(self._ctx, 8)
          
 
             if predIndex == 3:
-                return self.precpred(self._ctx, 6)
+                return self.precpred(self._ctx, 7)
          
 
 

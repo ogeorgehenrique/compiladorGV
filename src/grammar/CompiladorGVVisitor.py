@@ -104,6 +104,11 @@ class CompiladorGVVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by CompiladorGVParser#lista_argumentos.
+    def visitLista_argumentos(self, ctx:CompiladorGVParser.Lista_argumentosContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by CompiladorGVParser#expressao.
     def visitExpressao(self, ctx:CompiladorGVParser.ExpressaoContext):
         return self.visitChildren(ctx)

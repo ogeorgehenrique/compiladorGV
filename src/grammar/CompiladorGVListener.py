@@ -179,6 +179,15 @@ class CompiladorGVListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by CompiladorGVParser#lista_argumentos.
+    def enterLista_argumentos(self, ctx:CompiladorGVParser.Lista_argumentosContext):
+        pass
+
+    # Exit a parse tree produced by CompiladorGVParser#lista_argumentos.
+    def exitLista_argumentos(self, ctx:CompiladorGVParser.Lista_argumentosContext):
+        pass
+
+
     # Enter a parse tree produced by CompiladorGVParser#expressao.
     def enterExpressao(self, ctx:CompiladorGVParser.ExpressaoContext):
         pass

@@ -1,5 +1,5 @@
-# 🚀 CompiladorGV
-**Projeto acadêmico da disciplina de Compiladores (2025/1).** Este repositório apresenta o desenvolvimento de um compilador educacional para uma linguagem de programação de sintaxe simplificada, inspirada nas linguagens C e Pascal, com palavras-chave em português.
+# 🚀 CompiladorGV - Projeto acadêmico da disciplina de Compiladores (2025/1)
+Este repositório apresenta o desenvolvimento de um compilador educacional para uma linguagem de programação de sintaxe simplificada, inspirada nas linguagens C e Pascal, com palavras-chave em português. 
 O compilador foi implementado em Python utilizando a ferramenta ANTLR4, e é capaz de simular construções fundamentais de linguagens estruturadas, como declaração de variáveis, estruturas de controle, funções e análise léxica e sintática.
 
 ---
@@ -24,7 +24,7 @@ compiladorGV/
 │   ├── parser.py                 # Parser sintático e gerador de AST
 │   ├── MyLexerErrorListener.py
 │   ├── MyParserErrorListener.py
-│   ├── ParseTreeGenerator.py    # Gera .dot da AST completa
+│   ├── ParseTreeGenerator.py     # Gera .dot da AST completa
 ├── exemplos/                     # Testes de programas fonte
 │   ├── programa_teste.txt
 │   ├── triangulo_pascal.txt

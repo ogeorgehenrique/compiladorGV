@@ -1,8 +1,4 @@
 int main() {
-    int e = teste
-    escreva("Hello");
+    #escreva("Hello");
     retorna 0;
-    senao 
-    221
-    #
 }

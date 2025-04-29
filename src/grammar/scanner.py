@@ -1,5 +1,5 @@
-#Scanner.py (Léxico): responsavel por reconhecer palavras (tokens) 
-# O scanner vê tudo como tokens: TIPO_INT, ID, ABRE_PAR, STRING, FECHA_PAR, RETORNA, INTEIRO, FECHA_CHAVE
+# #Scanner.py (Léxico): responsavel por reconhecer palavras (tokens) 
+# # O scanner vê tudo como tokens: TIPO_INT, ID, ABRE_PAR, STRING, FECHA_PAR, RETORNA, INTEIRO, FECHA_CHAVE
 
 from antlr4 import *
 from CompiladorGVLexer import CompiladorGVLexer
@@ -42,7 +42,7 @@ if __name__ == '__main__':
 
 
 
-
+##nao usar porque gera colunas simples
 # from antlr4 import *
 # from CompiladorGVLexer import CompiladorGVLexer
 # import sys
@@ -113,7 +113,7 @@ if __name__ == '__main__':
 # if __name__ == '__main__':
 #     main(sys.argv)
 
-#########################################
+########################################
 
 
 

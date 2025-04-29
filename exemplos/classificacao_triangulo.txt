@@ -1,0 +1,23 @@
+int main() {
+    int a = 3;
+    int b = 4;
+    int c = 5;
+
+    se((a + b > c) && (a + c > b) && (b + ca > a)) {
+        
+        se((a == b) && (b == c)) {
+            escreva("Triangulo Equilatero");
+        }
+        senao se((a == b) || (a == c) || (b == c)) {
+            escreva("Triangulo Isosceles");
+        }
+        senao {
+            escreva("Triangulo Escaleno");
+        }
+
+    } senao {
+        escreva("Nao forma triangulo");
+    }
+
+    retorna 0;
+}

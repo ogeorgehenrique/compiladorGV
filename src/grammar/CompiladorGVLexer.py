@@ -200,7 +200,7 @@ class CompiladorGVLexer(Lexer):
 
     def ERRO_action(self, localctx:RuleContext , actionIndex:int):
         if actionIndex == 0:
-             print("\033[91mERRO LÉXICO [Linha " + str(self.line) + ", Coluna " + str(self.column + 1) + "]: Símbolo '" + self.text + "' inválido.\033[0m"); 
+             raise Exception(f"\033[91mERRO LÉXICO [Linha {self.line}, Coluna {self.column + 1}]: Símbolo '{self.text}' inválido.\033[0m") 
      
 
 

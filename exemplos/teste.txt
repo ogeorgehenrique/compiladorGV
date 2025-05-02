@@ -1,4 +1,4 @@
 int main() {
-    #escreva("Hello");
+    escreva("Hello")
     retorna 0;
-}
+}   

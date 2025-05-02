@@ -1,114 +1,125 @@
-# 🚀 CompiladorGV
-
-Projeto acadêmico desenvolvido para a disciplina de **Compiladores (2025/1)**.
-
-Este repositório contém o desenvolvimento de um **compilador** para uma linguagem de programação **inspirada em C e PASCAL**, com sintaxe simplificada e palavras-chave em português.
+# 🚀 CompiladorGV - Projeto acadêmico da disciplina de Compiladores (2025/1)
+Este repositório apresenta o desenvolvimento de um compilador educacional para uma linguagem de programação de sintaxe simplificada, inspirada nas linguagens C e Pascal, com palavras-chave em português. 
+O compilador foi implementado em Python utilizando a ferramenta ANTLR4, e é capaz de simular construções fundamentais de linguagens estruturadas, como declaração de variáveis, estruturas de controle, funções e análise léxica e sintática.
 
 ---
+## ✨ Visão Geral
+O **CompiladorGV** é um projeto acadêmico completo que implementa:
 
-## 📚 Descrição do Projeto
-
-O **CompiladorGV** realiza as etapas de análise léxica e sintática utilizando **ANTLR4** e gera a árvore sintática (AST) dos programas escritos na linguagem.
-
-A linguagem implementada é capaz de manipular:
-
+- Scanner (analisador léxico)
+- Parser (analisador sintático)
+- Geração de Árvore Sintática (AST)
+- Suporte a estruturas de controle (`if`, `else`, `while`, `for`)
+- Declaração e chamada de funções
 - Tipos primitivos (`int`, `string`)
-- Entrada e saída de dados (`leia()`, `escreva()`)
-- Controle de fluxo (`se`, `senao`, `para`, `enquanto`)
-- Declaração e chamada de funções (`int soma(int a, int b) { retorna a+b; }`)
-- Expressões aritméticas e lógicas
-- Retorno de valores com `retorna`
-- Geração de ASTs para visualização (Graphviz)
-
+- Saída com mensagens de erro **coloridas e amigáveis**
 ---
-
-## 🛠 Funcionalidades Implementadas
-
-- 📖 **Declaração de Variáveis:**  
-  `int x = 10;`, `string nome = "GeorgeLindao";`
-  
-- 🔢 **Expressões Aritméticas e Lógicas:**  
-  `+`, `-`, `*`, `/`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `&&`, `||`
-
-- 🧠 **Controle de Fluxo:**  
-  `se (...) {}`, `senao {}`, `para (...) {}`, `enquanto (...) {}`
-
-- 📥 **Entrada e Saída:**  
-  `leia(x);`, `escreva("Texto");`, `escreva(x + 1);`
-
-- 🧩 **Declaração e Chamada de Funções:**  
-  `int soma(int a, int b) { retorna a+b; }`  
-  `soma(2, 3);`
-
-- 🔁 **Retorno de Funções:**  
-  `retorna resultado;`
-
-- 🌳 **Geração de Árvore Sintática (AST)**
-
----
-
-## 📂 Estrutura do Projeto
-
+## 🌐 Estrutura de Pastas
 ```bash
-CompiladorGV/
+compiladorGV/
+├── antlr-4.13.1-complete.jar     # Ferramenta ANTLR
+├── grammar/                      # Gramática (.g4) e arquivos gerados
+│   ├── CompiladorGV.g4           # Sua gramática principal
+│   ├── scanner.py                # Scanner léxico
+│   ├── parser.py                 # Parser sintático e gerador de AST
+│   ├── MyLexerErrorListener.py
+│   ├── MyParserErrorListener.py
+│   ├── ParseTreeGenerator.py     # Gera .dot da AST completa
+├── exemplos/                     # Testes de programas fonte
+│   ├── programa_teste.txt
+│   ├── triangulo_pascal.txt
+│   └── classificacao_triangulo.txt
+├── saida_ast.dot                 # Arquivo .dot gerado pelo parser
+├── saida_ast.png                 # Imagem da AST (Graphviz)
 ├── README.md
-├── grammar/
-│   └── CompiladorGV.g4            # Gramática ANTLR
-├── src/
-│   ├── scanner.py                 # Analisador Léxico
-│   ├── parser.py                  # Analisador Sintático
-│   └── ast_generator.py           # Gerador de AST (opcional)
-├── exemplos/
-│   ├── triangulo_pascal.txt       # Exemplo de programa
-│   ├── classificacao_triangulo.txt# Exemplo de programa
-├── docs/
-│   ├── ASTs/                      # ASTs geradas
-│   └── Relatorio_Compilador.pdf   # Relatório final
-├── .gitignore
-└── LICENSE (opcional)
 ```
-
 ---
+## ⚙️ Recursos Suportados pela Gramática
 
-## 🚀 Como Executar
-
-### 1. Instalar dependências
-
-- [Python 3.x](https://www.python.org/)
-- [Java JDK](https://www.oracle.com/java/technologies/javase-downloads.html) (requisito para o ANTLR)
-- [ANTLR 4](https://www.antlr.org/)
-- [Graphviz](https://graphviz.gitlab.io/)
-
-### 2. Gerar arquivos ANTLR
-
-```bash
-antlr4 -Dlanguage=Python3 -o src/ grammar/CompiladorGV.g4
+### ✍️ Declarações
 ```
-
-### 3. Executar o compilador
-
-```bash
-python src/main.py caminho/do/arquivo.exemplo
+int x = 0;
+string nome = "George";
 ```
+### ⚖️ Expressões matemáticas e relacionais
+```
+y = x + 1;
+x = a * (b + c);
+se (x > 0 && y != 3) { ... }
+```
+### ⚡ Comandos de controle
+```
+se (condicao) { ... } senao { ... }
+senao se (...) { ... }
+para(i = 0; i < n; i = i + 1) { ... }
+enquanto(x > 0) { ... }
+```
+### 🔎 Funções
+```
+int soma(int a, int b) {
+    retorna a + b;
+}
 
+int main() {
+    int total = soma(2, 3);
+    retorna 0;
+}
+```
+### 🔹 Escrita e leitura
+```
+escreva("Resultado:");
+leia(x);
+```
 ---
+# 🎨 AST Visual
 
-## 📋 Programas de Teste
-
-- **Triângulo de Pascal:**  
-  Imprime as linhas do triângulo de Pascal até `n` linhas.
-
-- **Classificação de Triângulos:**  
-  Lê três lados e classifica como equilátero, isósceles ou escaleno.
-
+Após rodar o parser.py, você pode gerar a imagem da AST com:
+```
+dot -Tpng saida_ast.dot -o saida_ast.png
+```
+Exemplo de estrutura:
+```
+inicio
+ └── funcao
+     ├── tipo: int
+     ├── nome: main
+     └── bloco
+         ├── escreva
+         └── retorna
+```
 ---
+# 🔐 Mensagens de erro personalizadas
 
-## 📄 Licença
-
-Projeto acadêmico de uso livre para fins educacionais.
-
+As mensagens de erro agora são:
+	•	Coloridas (vermelho)
+	•	Com linha e coluna
+	•	Com texto amigável
+Exemplos:
+```
+ERRO LÉXICO [Linha 2, Coluna 14]: Símbolo '#' inválido.
+ERRO SINTÁTICO [Linha 5, Coluna 12]: Esperado ';' após 'retorna'
+```
 ---
+# 📚 Exemplos implementados:
+	•	programa_teste.txt: exemplo básico com escrita e retorno
+	•	triangulo_pascal.txt: usando para, expressões e condições para imprimir o triângulo de Pascal
+	•	classificacao_triangulo.txt: uso de se, senao se, expressões lógicas e chamadas de função
+ ---
+ # 🚀 Como executar
+ ```
+# Rodar scanner:
+python3 src/grammar/scanner.py exemplos/arquivo.txt
 
-## ✍️ Autor
+# Rodar parser e gerar AST:
+python3 src/grammar/parser.py exemplos/arquivo.txt
 
-- **George Henrique Almeida da Silva**
+# Gerar imagem da árvore:
+dot -Tpng saida_ast.dot -o saida_ast.png
+```
+---
+# 📊 Status do Projeto
+	•	Scanner com erros coloridos
+	•	Parser com mensagens sintáticas amigáveis
+	•	AST textual e visual com Graphviz
+	•	Suporte a funções, laços, condicionais e expressões
+	•	Pronto para ser apresentado ou expandido com semântica/intermediário

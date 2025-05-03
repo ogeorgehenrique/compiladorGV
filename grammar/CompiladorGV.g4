@@ -151,16 +151,8 @@ operador
 lista_argumentos
     : expressao (',' expressao)*
     ;
-    
-// expressao
-//     : expressao op=(MULT | DIV) expressao
-//     | expressao op=(PLUS | MINUS) expressao
-//     | ABRE_PAR expressao FECHA_PAR
-//     | INTEIRO
-//     | FLOAT
-//     | STRING
-//     | ID
-//     ;
+
+
  expressao
     : expressao op=(MULT | DIV) expressao
     | expressao op=(PLUS | MINUS) expressao
@@ -182,11 +174,5 @@ bloco_funcao
     ;
 
 
-//ERRO: . { raise Exception("Símbolo inválido: " + getText()) };
-//ERRO: . { raise RuntimeError("Símbolo inválido"); };
-//ERRO: . { System.err.println("ERRO LÉXICO [Linha " + getLine() + ", Coluna " + getCharPositionInLine() + "]: Símbolo '" + getText() + "' inválido."); };
-//ERRO: . { raise RuntimeError(f"ERRO LÉXICO [Linha {self._line}, Coluna {self._column}]: Símbolo '{self.text}' inválido") };
-//ERRO: . { raise Exception("Símbolo inválido: " + getText()) };
-//ERRO: . { print(f"ERRO LÉXICO [Linha {self.line}, Coluna {self.column+1}]: Símbolo '{self.text}' inválido."); };
-//ERRO: . { print("\033[91mERRO LÉXICO [Linha " + str(self.line) + ", Coluna " + str(self.column + 1) + "]: Símbolo '" + self.text + "' inválido.\033[0m"); };
+//funcao que retorna o erro LEXICO
 ERRO: . { raise Exception(f"\033[91mERRO LÉXICO [Linha {self.line}, Coluna {self.column + 1}]: Símbolo '{self.text}' inválido.\033[0m") };

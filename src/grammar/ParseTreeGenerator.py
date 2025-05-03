@@ -7,11 +7,6 @@ class ParseTreeGenerator:
         self.node_counter = 0
         self.output = []
 
-    # def new_node(self, label):
-    #     node_name = f"n{self.node_counter}"
-    #     self.output.append(f'{node_name} [label="{label}"];')
-    #     self.node_counter += 1
-    #     return node_name
 
     def new_node(self, label):
         node_name = f"n{self.node_counter}"

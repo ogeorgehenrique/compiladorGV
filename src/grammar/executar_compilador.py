@@ -55,11 +55,11 @@ def main(argv):
     input_file = argv[1]
     input_stream = FileStream(input_file, encoding="utf-8")
 
-    print("\n🔍 Etapa 1: Scanner")
+    print("\n🔍 Etapa 1: Scanner - Analisador Léxico")
     print("")
     executar_scanner(FileStream(input_file, encoding="utf-8"))
 
-    print("\n🧠 Etapa 2: Parser")
+    print("\n🧠 Etapa 2: Parser - Analisador Sintático")
     print("")
     executar_parser(FileStream(input_file, encoding="utf-8"))
 

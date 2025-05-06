@@ -91,9 +91,10 @@ inicio
 # 🔐 Mensagens de erro personalizadas
 
 As mensagens de erro agora são:
-	•	Coloridas (vermelho)
-	•	Com linha e coluna
-	•	Com texto amigável
+- Coloridas (vermelho)
+- Com linha e coluna
+- Com texto amigável
+
 Exemplos:
 ```
 ERRO LÉXICO [Linha 2, Coluna 14]: Símbolo '#' inválido.
@@ -101,10 +102,39 @@ ERRO SINTÁTICO [Linha 5, Coluna 12]: Esperado ';' após 'retorna'
 ```
 ---
 # 📚 Exemplos implementados:
-	•	programa_teste.txt: exemplo básico com escrita e retorno
-	•	triangulo_pascal.txt: usando para, expressões e condições para imprimir o triângulo de Pascal
-	•	classificacao_triangulo.txt: uso de se, senao se, expressões lógicas e chamadas de função
+	• teste.txt: exemplo básico com escrita e retorno
+ 	• programa_teste.txt: exemplo básico com atribuição e chamadas de funções
+	• triangulo_pascal.txt: usando para, expressões e condições para imprimir o triângulo de Pascal
+	• classificacao_triangulo.txt: uso de se, senao se, expressões lógicas e chamadas de função
  ---
+ # 🔍 scanner.py — Analisador Léxico
+O arquivo scanner.py é responsável pela análise léxica do código-fonte da linguagem. Ele utiliza o lexer gerado pelo ANTLR4 a partir da gramática definida (CompiladorGVLexer) para transformar o código em uma sequência de tokens, que são unidades mínimas da linguagem (como identificadores, palavras-chave, operadores, etc).
+## 🔧 Funcionamento
+1.	Leitura do arquivo: Recebe o caminho de um arquivo como argumento e o lê como uma stream de texto.
+2.	Tokenização: O lexer processa o texto e identifica os tokens válidos, conforme a gramática da linguagem.
+3.	Saída formatada: Exibe os tokens no terminal no formato <Tipo, 'Lexema', Linha, Coluna>, facilitando a análise visual do código.
+4.	Tratamento de erros: Caso ocorra algum erro inesperado durante a análise, o programa imprime a mensagem de erro e encerra a execução.
+
+Este script é uma etapa fundamental da cadeia de compilação, pois valida se os símbolos usados no código são reconhecidos pela linguagem antes de passar para a análise sintática.
+
+---
+# 📘 parser.py — Analisador Sintático
+O arquivo parser.py é responsável pela análise sintática do código-fonte. Ele verifica se a sequência de tokens (gerada pelo scanner) está de acordo com as regras gramaticais definidas na linguagem, além de gerar uma árvore de derivação (AST) para representar a estrutura hierárquica do código.
+## 🧠 Funcionamento
+1.	Leitura do código: O arquivo-fonte é lido e convertido em tokens pelo CompiladorGVLexer.
+2.	Parser e tratamento de erros:
+3.	Um analisador sintático (CompiladorGVParser) processa os tokens.
+4.	Listeners padrões de erro do ANTLR são removidos e substituídos por um listener customizado (MyParserErrorListener) que exibe mensagens de erro mais amigáveis.
+5.	Geração da AST:
+6.	A árvore sintática é visitada pelo ParseTreeGenerator, um visitante personalizado que percorre os nós da árvore.
+7.	O resultado é salvo no arquivo saida_ast.dot, que pode ser visualizado como um grafo representando a estrutura do código.
+8.	Mensagens finais:
+9.	Se o código estiver sintaticamente correto, o script exibe mensagens de sucesso.
+10.	Em caso de erro, uma mensagem vermelha é exibida e a execução é encerrada.
+
+Este script garante que o programa esteja corretamente estruturado antes de seguir para etapas mais avançadas da compilação.
+
+---
  # 🚀 Como executar
  ```
 # Rodar scanner:

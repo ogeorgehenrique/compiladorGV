@@ -143,6 +143,9 @@ python3 src/grammar/scanner.py exemplos/arquivo.txt
 # Rodar parser e gerar AST:
 python3 src/grammar/parser.py exemplos/arquivo.txt
 
+# Rodas o programa completo (parser e scanner)
+python3 src/grammar/executar_compilador.py exemplos/teste.txt
+
 # Gerar imagem da árvore:
 dot -Tpng saida_ast.dot -o saida_ast.png
 ```

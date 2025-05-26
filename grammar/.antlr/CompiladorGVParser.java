@@ -123,14 +123,6 @@ public class CompiladorGVParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_inicio; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).enterInicio(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).exitInicio(this);
-		}
 	}
 
 	public final InicioContext inicio() throws RecognitionException {
@@ -203,14 +195,6 @@ public class CompiladorGVParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_comandos; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).enterComandos(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).exitComandos(this);
-		}
 	}
 
 	public final ComandosContext comandos() throws RecognitionException {
@@ -320,14 +304,6 @@ public class CompiladorGVParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_comando_declaracao_funcao; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).enterComando_declaracao_funcao(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).exitComando_declaracao_funcao(this);
-		}
 	}
 
 	public final Comando_declaracao_funcaoContext comando_declaracao_funcao() throws RecognitionException {
@@ -391,14 +367,6 @@ public class CompiladorGVParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_comando_chamada_funcao; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).enterComando_chamada_funcao(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).exitComando_chamada_funcao(this);
-		}
 	}
 
 	public final Comando_chamada_funcaoContext comando_chamada_funcao() throws RecognitionException {
@@ -455,14 +423,6 @@ public class CompiladorGVParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_parametros; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).enterParametros(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).exitParametros(this);
-		}
 	}
 
 	public final ParametrosContext parametros() throws RecognitionException {
@@ -512,14 +472,6 @@ public class CompiladorGVParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_parametro; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).enterParametro(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).exitParametro(this);
-		}
 	}
 
 	public final ParametroContext parametro() throws RecognitionException {
@@ -570,14 +522,6 @@ public class CompiladorGVParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_argumentos; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).enterArgumentos(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).exitArgumentos(this);
-		}
 	}
 
 	public final ArgumentosContext argumentos() throws RecognitionException {
@@ -629,14 +573,6 @@ public class CompiladorGVParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_comando_retorno; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).enterComando_retorno(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).exitComando_retorno(this);
-		}
 	}
 
 	public final Comando_retornoContext comando_retorno() throws RecognitionException {
@@ -675,14 +611,6 @@ public class CompiladorGVParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_comando_ler; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).enterComando_ler(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).exitComando_ler(this);
-		}
 	}
 
 	public final Comando_lerContext comando_ler() throws RecognitionException {
@@ -728,14 +656,6 @@ public class CompiladorGVParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_comando_escrever; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).enterComando_escrever(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).exitComando_escrever(this);
-		}
 	}
 
 	public final Comando_escreverContext comando_escrever() throws RecognitionException {
@@ -800,14 +720,6 @@ public class CompiladorGVParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_comando_se; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).enterComando_se(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).exitComando_se(this);
-		}
 	}
 
 	public final Comando_seContext comando_se() throws RecognitionException {
@@ -877,14 +789,6 @@ public class CompiladorGVParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_comando_para; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).enterComando_para(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).exitComando_para(this);
-		}
 	}
 
 	public final Comando_paraContext comando_para() throws RecognitionException {
@@ -939,14 +843,6 @@ public class CompiladorGVParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_comando_enquanto; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).enterComando_enquanto(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).exitComando_enquanto(this);
-		}
 	}
 
 	public final Comando_enquantoContext comando_enquanto() throws RecognitionException {
@@ -988,14 +884,6 @@ public class CompiladorGVParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_comando_atribuicao; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).enterComando_atribuicao(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).exitComando_atribuicao(this);
-		}
 	}
 
 	public final Comando_atribuicaoContext comando_atribuicao() throws RecognitionException {
@@ -1035,14 +923,6 @@ public class CompiladorGVParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_comando_declaracao; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).enterComando_declaracao(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).exitComando_declaracao(this);
-		}
 	}
 
 	public final Comando_declaracaoContext comando_declaracao() throws RecognitionException {
@@ -1125,14 +1005,6 @@ public class CompiladorGVParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_atribuicao; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).enterAtribuicao(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).exitAtribuicao(this);
-		}
 	}
 
 	public final AtribuicaoContext atribuicao() throws RecognitionException {
@@ -1172,14 +1044,6 @@ public class CompiladorGVParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_incremento; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).enterIncremento(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).exitIncremento(this);
-		}
 	}
 
 	public final IncrementoContext incremento() throws RecognitionException {
@@ -1252,14 +1116,6 @@ public class CompiladorGVParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_condicao; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).enterCondicao(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).exitCondicao(this);
-		}
 	}
 
 	public final CondicaoContext condicao() throws RecognitionException {
@@ -1370,14 +1226,6 @@ public class CompiladorGVParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_operador; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).enterOperador(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).exitOperador(this);
-		}
 	}
 
 	public final OperadorContext operador() throws RecognitionException {
@@ -1426,14 +1274,6 @@ public class CompiladorGVParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_lista_argumentos; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).enterLista_argumentos(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).exitLista_argumentos(this);
-		}
 	}
 
 	public final Lista_argumentosContext lista_argumentos() throws RecognitionException {
@@ -1500,14 +1340,6 @@ public class CompiladorGVParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expressao; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).enterExpressao(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).exitExpressao(this);
-		}
 	}
 
 	public final ExpressaoContext expressao() throws RecognitionException {
@@ -1672,14 +1504,6 @@ public class CompiladorGVParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_bloco; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).enterBloco(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).exitBloco(this);
-		}
 	}
 
 	public final BlocoContext bloco() throws RecognitionException {
@@ -1737,14 +1561,6 @@ public class CompiladorGVParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_bloco_funcao; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).enterBloco_funcao(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CompiladorGVListener ) ((CompiladorGVListener)listener).exitBloco_funcao(this);
-		}
 	}
 
 	public final Bloco_funcaoContext bloco_funcao() throws RecognitionException {

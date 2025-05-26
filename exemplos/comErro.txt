@@ -1,0 +1,4 @@
+int soma(int a, int b) {
+    string resultado = a + b;
+    retorna amem;
+}

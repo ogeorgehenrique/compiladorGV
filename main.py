@@ -42,8 +42,16 @@ def main():
     print("🧠 Etapa 3: Análise semântica...")
     analyzer = SemanticAnalyzer()
     analyzer.analyze(ast)
+    # Exibir erros, se houver
+    if analyzer.errors:
+        print("❌ Erros semânticos encontrados:")
+        for erro in analyzer.errors:
+            print(f"   - {erro}")
+    else:
+        print("✅ Análise semântica concluída sem erros.")
 
-    print("✅ Sem erros semânticos encontrados.")
+
+    # print("✅ Sem erros semânticos encontrados.")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,12 @@
+int soma(int a, int b) {
+    int resultado = a + b;
+    retorna resultado;
+}
+
+int main() {
+    int x = 10;
+    int y = 20;
+    int z = soma(x, y);
+    escreva(z);
+    retorna 0;
+}

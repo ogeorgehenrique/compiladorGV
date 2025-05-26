@@ -51,7 +51,7 @@ def main():
         print("✅ Análise semântica concluída sem erros.")
 
 
-    # print("✅ Sem erros semânticos encontrados.")
+
 
 
 if __name__ == "__main__":

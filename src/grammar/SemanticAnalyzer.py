@@ -3,10 +3,13 @@ from symbol_table import SymbolTable
 class SemanticAnalyzer:
     def __init__(self):
         self.symbol_table = SymbolTable()
+        
         self.errors = []
-        self.current_function_return_type = None  # novo atributo
+        self.current_function_return_type = None
 
-    def error(self, message):
+    def error(self, message, node=None):
+        if node and "line" in node and "column" in node:
+            message = f"[Linha {node['line']}, Coluna {node['column']}] {message}"
         self.errors.append(message)
 
     def visit(self, node):
@@ -25,7 +28,7 @@ class SemanticAnalyzer:
 
     def visit_FunctionDeclaration(self, node):
         if self.symbol_table.lookup(node["name"]):
-            self.error(f"Função '{node['name']}' já declarada.")
+            self.error(f"Função '{node['name']}' já declarada.", node)
         else:
             self.symbol_table.define(node["name"], {
                 "type": "function",
@@ -36,7 +39,7 @@ class SemanticAnalyzer:
         self.symbol_table.push_scope()
         for param in node["params"]:
             if self.symbol_table.lookup(param["name"]):
-                self.error(f"Parâmetro '{param['name']}' já declarado na função '{node['name']}'.")
+                self.error(f"Parâmetro '{param['name']}' já declarado na função '{node['name']}'.", param)
             self.symbol_table.define(param["name"], {"type": param["paramType"]})
 
         self.current_function_return_type = node["returnType"]
@@ -51,7 +54,7 @@ class SemanticAnalyzer:
 
     def visit_VariableDeclaration(self, node):
         if self.symbol_table.lookup(node["name"]):
-            self.error(f"Variável '{node['name']}' já declarada.")
+            self.error(f"Variável '{node['name']}' já declarada.", node)
         else:
             self.symbol_table.define(node["name"], {
                 "type": "variable",
@@ -60,26 +63,26 @@ class SemanticAnalyzer:
         if node["value"]:
             value_type = self.visit(node["value"])
             if value_type and value_type != node["varType"]:
-                self.error(f"Tipo incompatível em atribuição à variável '{node['name']}': esperado {node['varType']}, encontrado {value_type}")
+                self.error(f"Tipo incompatível em atribuição à variável '{node['name']}': esperado {node['varType']}, encontrado {value_type}", node)
 
     def visit_Assignment(self, node):
         var_info = self.symbol_table.lookup(node["target"])
         if not var_info:
-            self.error(f"Variável '{node['target']}' não declarada.")
+            self.error(f"Variável '{node['target']}' não declarada.", node)
         else:
             if var_info["type"] != "variable":
-                self.error(f"'{node['target']}' não é uma variável.")
+                self.error(f"'{node['target']}' não é uma variável.", node)
             value_type = self.visit(node["value"])
             if value_type and value_type != var_info["varType"]:
-                self.error(f"Tipo incompatível em atribuição a '{node['target']}': esperado {var_info['varType']}, encontrado {value_type}")
+                self.error(f"Tipo incompatível em atribuição a '{node['target']}': esperado {var_info['varType']}, encontrado {value_type}", node)
 
     def visit_Return(self, node):
         value_type = self.visit(node["value"])
         if value_type is None:
-            self.error(f"Tipo de retorno inválido: expressão não reconhecida.")
+            self.error(f"Tipo de retorno inválido: expressão não reconhecida.", node)
         elif self.current_function_return_type != value_type:
-            self.error(f"Tipo de retorno incompatível: esperado {self.current_function_return_type}, encontrado {value_type}")
-            
+            self.error(f"Tipo de retorno incompatível: esperado {self.current_function_return_type}, encontrado {value_type}", node)
+
     def visit_IfStatement(self, node):
         self.visit(node["condition"])
         self.visit(node["then"])
@@ -101,7 +104,7 @@ class SemanticAnalyzer:
     def visit_Read(self, node):
         var_info = self.symbol_table.lookup(node["identifier"])
         if not var_info:
-            self.error(f"Variável '{node['identifier']}' não declarada para leitura.")
+            self.error(f"Variável '{node['identifier']}' não declarada para leitura.", node)
 
     def visit_Write(self, node):
         if isinstance(node["value"], dict):
@@ -110,12 +113,12 @@ class SemanticAnalyzer:
     def visit_Increment(self, node):
         var_info = self.symbol_table.lookup(node["target"])
         if not var_info:
-            self.error(f"Variável '{node['target']}' não declarada para incremento.")
+            self.error(f"Variável '{node['target']}' não declarada para incremento.", node)
 
     def visit_Decrement(self, node):
         var_info = self.symbol_table.lookup(node["target"])
         if not var_info:
-            self.error(f"Variável '{node['target']}' não declarada para decremento.")
+            self.error(f"Variável '{node['target']}' não declarada para decremento.", node)
 
     def visit_condicao_binaria(self, node):
         self.visit(node["left"])
@@ -128,30 +131,37 @@ class SemanticAnalyzer:
     def visit_BinaryExpression(self, node):
         left_type = self.visit(node["left"])
         right_type = self.visit(node["right"])
+
+        # Verifica divisão por zero
+        if node.get("operator") == "/":
+            if node["right"]["type"] in ("IntLiteral", "FloatLiteral") and node["right"]["value"] == 0:
+                self.error("Divisão por zero detectada.", node["right"])
+
         if left_type != right_type:
-            self.error(f"Expressão binária com tipos incompatíveis: {left_type} e {right_type}")
+            self.error(f"Expressão binária com tipos incompatíveis: {left_type} e {right_type}", node)
             return None
-        return left_type  # tipo do resultado da expressão binária
+
+        return left_type
 
     def visit_FunctionCall(self, node):
         func_info = self.symbol_table.lookup(node["name"])
         if not func_info:
-            self.error(f"Função '{node['name']}' não declarada.")
+            self.error(f"Função '{node['name']}' não declarada.", node)
         else:
             if func_info["type"] != "function":
-                self.error(f"'{node['name']}' não é uma função.")
+                self.error(f"'{node['name']}' não é uma função.", node)
             else:
                 expected = len(func_info["params"])
                 given = len(node["arguments"])
                 if expected != given:
-                    self.error(f"Função '{node['name']}' chamada com {given} argumentos, mas espera {expected}.")
+                    self.error(f"Função '{node['name']}' chamada com {given} argumentos, mas espera {expected}.", node)
         for arg in node["arguments"]:
             self.visit(arg)
 
     def visit_Identifier(self, node):
         var_info = self.symbol_table.lookup(node["name"])
         if not var_info:
-            self.error(f"Identificador '{node['name']}' não declarado.")
+            self.error(f"Identificador '{node['name']}' não declarado.", node)
             return None
         return var_info.get("varType") or var_info.get("type")
 

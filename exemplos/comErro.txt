@@ -1,5 +1,15 @@
 int soma(int a, int b) {
+   
     string resultado = a + b;
+   
     resultado = a/0;
+   
+    int a;
+   
     retorna amem;
+}
+
+int teste(){
+    string a;
+    retorna a;
 }

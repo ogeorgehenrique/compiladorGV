@@ -148,6 +148,10 @@ python3 src/grammar/executar_compilador.py exemplos/teste.txt
 
 # Gerar imagem da árvore:
 dot -Tpng saida_ast.dot -o saida_ast.png
+
+# Rodar o Analizador sintático:
+python main.py exemplos/comErro.txt
+
 ```
 ---
 # 📊 Status do Projeto

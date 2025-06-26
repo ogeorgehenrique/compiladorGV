@@ -1,4 +1,4 @@
-// Generated from c:/Users/vinycius yuji/OneDrive/Documentos/faculdade/Compiladores/compiladorGV/grammar/CompiladorGV.g4 by ANTLR 4.13.1
+// Generated from /Users/ogeorgehenrique/Desktop/Faculdade/compila 2/compiladorGV/grammar/CompiladorGV.g4 by ANTLR 4.13.1
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;

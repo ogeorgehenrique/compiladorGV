@@ -1,4 +1,0 @@
-int main() {
-    escreva("Hello");
-    retorna 0;
-}   

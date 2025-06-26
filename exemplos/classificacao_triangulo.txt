@@ -8,13 +8,12 @@ int main() {
         se((a == b) && (b == c)) {
             escreva("Triangulo Equilatero");
         }
-        senao se((a == b) || (a == c) || (b == c)) {
+        se((a == b) || (a == c) || (b == c)){
             escreva("Triangulo Isosceles");
         }
-        senao {
-            escreva("Triangulo Escaleno");
+        senao{
+            escreva("Trinagulo Escaleno");
         }
-
     } senao {
         escreva("Nao forma triangulo");
     }

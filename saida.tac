@@ -1,16 +1,12 @@
 func main
-a = 2
-b = 2
-_t0 = a > b
-if _t0 goto L0
-goto L1
-L0:
-param "A maior"
-call escreva
-goto L2
-L1:
-param "B maior"
-call escreva
-L2:
+a = 1
+b = 12
+_t0 = a + b
+_t1 = b - b
+_t2 = _t0 / _t1
+_t3 = _t2 * a
+_t4 = a / b
+_t5 = _t3 - _t4
+c = _t5
 return 0
 endfunc

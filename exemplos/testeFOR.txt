@@ -1,0 +1,8 @@
+int main(){
+    para(i = 0; i < linhas; i = i + 1) {
+        para(espaco = 1; espaco <= linhas - i; espaco = espaco + 1) {
+            escreva(" ");
+        }
+    }
+    retorna 0;
+}

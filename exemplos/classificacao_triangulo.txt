@@ -3,7 +3,7 @@ int main() {
     int b = 4;
     int c = 5;
 
-    se((a + b > c) && (a + c > b) && (b + ca > a)) {
+    se((a + b > c) && (a + c > b) && (b + c > a)) {
         
         se((a == b) && (b == c)) {
             escreva("Triangulo Equilatero");

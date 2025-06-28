@@ -156,7 +156,8 @@ lista_argumentos
  expressao
     : expressao op=(MULT | DIV) expressao
     | expressao op=(PLUS | MINUS) expressao
-    | ID ABRE_PAR lista_argumentos? FECHA_PAR    // CHAMADA DE FUNÇÃO!!!
+ // | ID ABRE_PAR lista_argumentos? FECHA_PAR    // CHAMADA DE FUNÇÃO!!!
+    | ID ABRE_PAR expressao (VIRGULA expressao)* FECHA_PAR   // chamada de função (ajustada)
     | ABRE_PAR expressao FECHA_PAR
     | INTEIRO
     | FLOAT

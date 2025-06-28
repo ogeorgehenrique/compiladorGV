@@ -2,5 +2,5 @@ int main() {
     int a = 1;
     int b = 12;
     int c = (a+b)/(b-b)*a-(a/b);
-    retorna c;
+    retorna 0;
 }   

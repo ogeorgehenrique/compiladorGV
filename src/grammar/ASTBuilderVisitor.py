@@ -222,7 +222,8 @@ class ASTBuilderVisitor(CompiladorGVVisitor):
         elif ctx.ID() and ctx.ABRE_PAR():
             nome = ctx.ID().getText()
             args = []
-            if ctx.lista_argumentos():
+            # if ctx.lista_argumentos():
+            if hasattr(ctx, "lista_argumentos") and ctx.lista_argumentos():
                 args = [self.visit(e) for e in ctx.lista_argumentos().expressao()]
             return {
                 "type": "FunctionCall",

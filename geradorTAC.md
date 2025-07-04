@@ -302,10 +302,205 @@ A TACGenerator é uma visita orientada à árvore gerada pelo parser, com o obje
 Ela herda de CompiladorGVVisitor, o que significa que ela implementa métodos visitX() que são chamados automaticamente ao percorrer a árvore gerada pela gramática ANTLR.
 
 **1. def __init __(self):**
-- self.instrucoes
 
-Lista onde as instruções TAC geradas são armazenadas. Cada uma é uma instância de TAC_Instruction.
+Este é o construtor da classe TACGenerator. Em Python, o método **__init __** é automaticamente chamado quando uma nova instância da classe é criada. Ele serve para inicializar os atributos da instância. 
+```
+  def __init__(self):
+        self.temp_counter = 0
+        self.label_counter = 0
+        self.instrucoes = []
+```
+-   self.temp_counter = 0
 
-- self.temp_counter / self.label_counter
+Cria e inicializa o contador de temporários com zero, para que durante a geração de código intermediário (TAC), quando temos expressões como: `a = b + c * d`é necessário usar de variáveis temporárias para armazenar os valores intermediários, como:
+```
+_t0 = c * d
+_t1 = b + _t0
+a = _t1
+```
+Cada vez que geramos um novo temporário `(_t0, _t1, _t2…)`, incrementamos esse contador para garantir nomes únicos.
 
-Contadores que garantem a criação de temporários e rótulos (labels) únicos: `_t0, _t1, _t2, ... L0, L1, L2, ...`
+- self.label_counter = 0
+
+Inicializa o contador de rótulos (labels) com zero. Os rótulos são usados para controle de fluxo: saltos, loops, condicionais.
+```
+if cond goto L0
+goto L1
+L0:
+   ...
+L1:
+```
+O label_counter garante que cada `L0, L1, L2`, etc., seja único para evitar colisões.
+
+- self.instrucoes = [ ]
+
+Cria uma lista vazia que armazenará todas as instruções TAC geradas durante a visita à árvore de sintaxe. Ele aramzena Instâncias de TAC_Instruction, como:
+```
+TAC_Instruction('+', dest=_t1, arg1='a', arg2='b')
+TAC_Instruction('label', dest='L0')
+TAC_Instruction('goto', dest='L1')
+```
+**Ao final, essa lista pode ser impressa ou salva em arquivo .tac com todas as instruções intermediárias do programa analisado.**
+
+----
+**2. def novo_temp(self):**
+
+Este método é responsável por gerar uma nova variável temporária toda vez que uma expressão intermediária precisa ser avaliada. Esse método é essencial para gerar variáveis intermediárias únicas, permitindo a decomposição de expressões complexas em passos simples, legíveis e compatíveis com linguagens de máquina ou Assembly. Ele encapsula uma abstração poderosa da lógica de armazenamento temporário que um compilador precisa para gerar código intermediário correto.
+```
+def novo_temp(self):
+        nome = f"_t{self.temp_counter}"
+        self.temp_counter += 1
+        return TAC_Operand("temp", nome)
+```
+- nome = f"_t{self.temp_counter}"
+
+Cria uma string com nome exclusivo para a variável temporária, usando o contador `self.temp_counter`. Se `self.temp_counter == 0`, o nome gerado será "`_t0`". Esse método é necessaário durante a tradução de expressões compostas, como: `a = b + c * d;` onde você precisa armazenar os resultados intermediários:
+```
+_t0 = c * d
+_t1 = b + _t0
+a = _t1
+```
+Essas variáveis _t0, _t1 são criadas automaticamente, e cada chamada a novo_temp() cuida disso.
+- self.temp_counter += 1
+
+Incrementa o contador para garantir que a próxima variável gerada tenha um nome único.
+Exemplo de sequência:
+- Primeira chamada: retorna _t0
+- Segunda chamada: retorna _t1
+- Terceira chamada: _t2 ...
+Essa lógica evita colisão de nomes e mantém a estrutura do código intermediário clara e organizada.
+
+- return TAC_Operand("temp", nome)
+
+Retorna um objeto da classe TAC_Operand com:
+- tipo="temp" → indicando que é uma variável temporária
+- valor="_tX" → o nome gerado
+ Isso padroniza o uso de operandos dentro da geração TAC. Esse TAC_Operand será usado, por exemplo, como dest ou arg1/arg2 em instruções TAC_Instruction.
+ ```
+Exemplo de retorno:
+TAC_Operand("temp", "_t3")
+```
+
+---
+**3. def nova_label(self):**
+O método nova_label() é responsável por gerar rótulos (labels) únicos que são usados no código intermediário TAC para controlar o fluxo de execução, como em estruturas de decisão (se, senao) e repetição (enquanto, para).
+Esses rótulos funcionam como marcadores de posição no código, representando pontos de salto (jump) para goto, if, if_false, etc.
+```
+def nova_label(self):
+        nome = f"L{self.label_counter}"
+        self.label_counter += 1
+        return TAC_Operand("label", nome)
+```
+- nome = f"L{self.label_counter}"
+
+Cria um nome exclusivo para um rótulo, concatenando a letra “L” com o valor atual do contador de rótulos `self.label_counter`, Se `label_counter == 0 → nome = "L0"`, se `label_counter == 1 → nome = "L1"` e assim por diante.
+Esses nomes serão usados como destinos de saltos no TAC, como em:
+```
+ifFalse _t0 goto L1
+goto L2
+L1:
+```
+- self.label_counter += 1
+
+Incrementa o contador de rótulos para garantir que o próximo rótulo gerado tenha um nome diferente, evitando assim, que dois goto apontem para o mesmo label por engano, o que poderia quebrar a lógica de controle de fluxo.
+
+- return TAC_Operand("label", nome)
+
+Retorna um objeto do tipo TAC_Operand, com:
+- tipo = "label" → identifica que é um rótulo (e não uma variável, constante, etc.)
+- valor = "L0", "L1", ... → o nome gerado
+```
+TAC_Instruction("label", dest=label)
+TAC_Instruction("goto", dest=label)
+TAC_Instruction("if_false", dest=label, arg1=condicao)
+```
+---
+**3. def add_instrucao(self, instrucao):**
+
+O método add_instrucao() é responsável por registrar uma instrução TAC (Three Address Code) na lista principal que está sendo construída durante a geração de código intermediário.
+Em outras palavras, toda vez que uma nova instrução TAC é criada (por exemplo, uma operação aritmética, uma atribuição, um salto), ela é adicionada ao final da lista `self.instrucoes` usando este método,ou seja, é uma lista de objetos da classe TAC_Instruction que representa o corpo do código intermediário gerado. Cada item dessa lista será convertido em uma linha do arquivo .tac final.
+
+O método add_instrucao() é o coração do gerador TAC. Ele funciona como uma “impressora” de instruções internas, acumulando tudo que deve ser transformado no código intermediário final. Sua simplicidade esconde sua importância: sem ele, nada seria registrado!
+```
+    def add_instrucao(self, instrucao):
+        self.instrucoes.append(instrucao)
+```
+- self.instrucoes.append(instrucao)
+Adiciona uma nova instrução TAC à lista principal de instruções, seu tipo de argumento esperado é o `TAC_Instruction`, ou seja, o método espera receber um objeto construído assim:
+```
+temp = self.novo_temp()  # cria _t0
+self.add_instrucao(TAC_Instruction("+", temp, "5", "3"))
+self.add_instrucao(TAC_Instruction("=", "a", temp))
+```
+A lista self.instrucoes conterá:
+```
+[
+  TAC_Instruction("+", _t0, 5, 3),
+  TAC_Instruction("=", a, _t0)
+]
+```
+Este método é chamado indiretamente por praticamente todos os visit... da classe TACGenerator:
+| Método Visitante            | Exemplo de instrução adicionada via `add_instrucao()` |
+|-----------------------------|--------------------------------------------------------|
+| `visitExpressao()`          | `_t1 = a + b`                                          |
+| `visitComando_atribuicao()` | `x = _t1`                                              |
+| `visitComando_para()`       | `goto L0`                                              |
+| `visitComando_retorno()`    | `return x`                                             |
+| `visitComando_ler()`        | `x = call leia()`                                      |
+
+---
+
+**4. def salvar_em_arquivo(self, nome_arquivo):**
+O método salvar_em_arquivo() tem como função persistir no disco todo o código intermediário TAC gerado, escrevendo cada instrução da lista self.instrucoes em um arquivo de texto .tac. Esse método transforma a representação interna (em objetos TAC_Instruction) em um formato textual legível, que representa o programa intermediário pronto para ser lido, interpretado ou transformado para etapas posteriores, como geração de código final (assembly, bytecode, etc.).
+
+Ao final da visita à árvore de sintaxe, todos os métodos visit...() terão adicionado suas instruções na lista self.instrucoes. É nessa hora que você chama salvar_em_arquivo() para transformar isso em um arquivo .tac.
+
+O método salvar_em_arquivo() é o último passo da geração de código intermediário — ele pega o resultado de toda a análise sintática, semântica e da geração de TAC, e o transforma em um arquivo físico.
+
+Sem ele, o que foi feito existiria apenas na memória — seria invisível para o mundo exterior.
+```
+def salvar_em_arquivo(self, nome_arquivo):
+        with open(nome_arquivo, "w") as f:
+            for instr in self.instrucoes:
+                f.write(str(instr) + "\n")
+```
+**5. **
+
+```
+```
+**3. def nova_label(self):**
+Cria um novo rótulo para controle de fluxo:
+```
+```
+**3. def nova_label(self):**
+Cria um novo rótulo para controle de fluxo:
+```
+```
+**3. def nova_label(self):**
+Cria um novo rótulo para controle de fluxo:
+```
+```
+**3. def nova_label(self):**
+Cria um novo rótulo para controle de fluxo:
+```
+```
+**3. def nova_label(self):**
+Cria um novo rótulo para controle de fluxo:
+```
+```
+**3. def nova_label(self):**
+Cria um novo rótulo para controle de fluxo:
+```
+```
+**3. def nova_label(self):**
+Cria um novo rótulo para controle de fluxo:
+```
+```
+
+
+
+
+
+
+
+

@@ -383,6 +383,7 @@ TAC_Operand("temp", "_t3")
 
 ---
 **3. def nova_label(self):**
+
 O método nova_label() é responsável por gerar rótulos (labels) únicos que são usados no código intermediário TAC para controlar o fluxo de execução, como em estruturas de decisão (se, senao) e repetição (enquanto, para).
 Esses rótulos funcionam como marcadores de posição no código, representando pontos de salto (jump) para goto, if, if_false, etc.
 ```
@@ -415,7 +416,7 @@ TAC_Instruction("goto", dest=label)
 TAC_Instruction("if_false", dest=label, arg1=condicao)
 ```
 ---
-**3. def add_instrucao(self, instrucao):**
+**4. def add_instrucao(self, instrucao):**
 
 O método add_instrucao() é responsável por registrar uma instrução TAC (Three Address Code) na lista principal que está sendo construída durante a geração de código intermediário.
 Em outras palavras, toda vez que uma nova instrução TAC é criada (por exemplo, uma operação aritmética, uma atribuição, um salto), ela é adicionada ao final da lista `self.instrucoes` usando este método,ou seja, é uma lista de objetos da classe TAC_Instruction que representa o corpo do código intermediário gerado. Cada item dessa lista será convertido em uma linha do arquivo .tac final.
@@ -450,7 +451,8 @@ Este método é chamado indiretamente por praticamente todos os visit... da clas
 
 ---
 
-**4. def salvar_em_arquivo(self, nome_arquivo):**
+**5. def salvar_em_arquivo(self, nome_arquivo):**
+
 O método salvar_em_arquivo() tem como função persistir no disco todo o código intermediário TAC gerado, escrevendo cada instrução da lista self.instrucoes em um arquivo de texto .tac. Esse método transforma a representação interna (em objetos TAC_Instruction) em um formato textual legível, que representa o programa intermediário pronto para ser lido, interpretado ou transformado para etapas posteriores, como geração de código final (assembly, bytecode, etc.).
 
 Ao final da visita à árvore de sintaxe, todos os métodos visit...() terão adicionado suas instruções na lista self.instrucoes. É nessa hora que você chama salvar_em_arquivo() para transformar isso em um arquivo .tac.
@@ -464,14 +466,95 @@ def salvar_em_arquivo(self, nome_arquivo):
             for instr in self.instrucoes:
                 f.write(str(instr) + "\n")
 ```
-**5. **
+---
+**6. def visitInicio(self, ctx):**
 
+O método visitInicio inicia a visita na raiz da árvore sintática abstrata (AST) gerada pelo ANTLR a partir do código-fonte analisado. Ele serve como ponto de partida para percorrer e traduzir cada comando do programa para instruções TAC.
 ```
+ def visitInicio(self, ctx):
+        self.visitChildren(ctx)
+        return None
 ```
-**3. def nova_label(self):**
-Cria um novo rótulo para controle de fluxo:
+Esse método corresponde à regra inicio da sua gramática ANTLR:
 ```
+inicio
+    : comandos+
+    ;
 ```
+Ou seja, o nó inicio contém uma lista de comandos que compõem o programa-fonte. Logo, `visitInicio()` deve chamar os visitadores apropriados para todos esses comandos — e isso é feito via `self.visitChildren(ctx)`.
+- self.visitChildren(ctx)
+Chama automaticamente o método `visitXXX()` correspondente para cada filho de ctx. Como ctx é um InicioContext, seus filhos são ComandosContext (cada comando no programa).
+Exemplo:
+```
+int main() {
+    int x = 10;
+    escreva(x);
+    retorna x;
+}
+```
+Fluxo executado por `visitInicio()`:
+1.	visitInicio() → encontra três comandos:
+- declaração de variável int x = 10
+- comando escreva(x)
+- comando retorna x
+2.	Ele chama:
+- visitComando_declaracao(...)
+- visitComando_escrever(...)
+- visitComando_retorno(...)
+É uma chamada recursiva em profundidade que processa o programa de cima para baixo.
+
+O método `v`sitInicio()` é como apertar o botão “executar”: ele ativa toda a visitação que transforma a estrutura da AST em um conjunto de instruções TAC. Seu papel é fundamental, mesmo parecendo simples — ele garante que nada no programa ficará sem ser traduzido.
+
+---
+**7. def visitComando_declaracao(self, ctx):**
+
+Esse método é responsável por processar uma declaração de variável na linguagem de alto nível e gerar o código intermediário (TAC) correspondente.
+```
+def visitComando_declaracao(self, ctx):
+        nome = ctx.ID().getText()
+        expressao_ctx = ctx.expressao()
+        
+        if expressao_ctx:
+            valor = self.visit(expressao_ctx)
+            self.add_instrucao(TAC_Instruction("=", TAC_Operand("var", nome), valor))
+        
+        return None
+```
+Esse método corresponde à regra de declaração da sua gramática ANTLR:
+```
+comando_declaracao
+    : TIPO_INT ID (RECEBE expressao)? FINAL
+    | TIPO_STRING ID (RECEBE expressao)? FINAL
+```
+Ou seja, a linguagem permite:
+1. Declarações sem valor inicial: int x;
+2. Declarações com inicialização: int x = 10;
+
+- nome = ctx.ID().getText()
+
+É responsável por extrair o nome da variável declarada (x, total, numero, etc.).
+`ctx.ID()` acessa o token do identificador e `.getText()` retorna o texto bruto — ex: "total".
+
+- expressao_ctx = ctx.expressao()
+
+Verifica se há uma expressão presente após o sinal =.
+Se for `int x = 2 + 3;` então `ctx.expressao()` é a subárvore da expressão 2 + 3.
+
+- ```if expressao_ctx:
+    valor = self.visit(expressao_ctx)
+    self.add_instrucao(TAC_Instruction("=", TAC_Operand("var", nome), valor))
+  ```
+
+  	1.	self.visit(expressao_ctx):
+  Processa a expressão recursivamente gerando TAC para calcular a expressão `(ex: 2 + 3 → _t0)` e retorna o resultado `(ex: _t0)`.
+	3.	TAC_Instruction("=", ...):
+	•	Cria uma instrução de atribuição no estilo: `x = _t0`
+Aqui, `TAC_Operand("var", nome)` representa o destino da atribuição (x), e valor é o resultado da expressão.
+
+- return None
+
+O método não precisa retornar nada; sua única função é gerar código.
+
 **3. def nova_label(self):**
 Cria um novo rótulo para controle de fluxo:
 ```

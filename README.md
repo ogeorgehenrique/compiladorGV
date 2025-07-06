@@ -160,3 +160,5 @@ python main.py exemplos/comErro.txt
 	•	AST textual e visual com Graphviz
 	•	Suporte a funções, laços, condicionais e expressões
 	•	Pronto para ser apresentado ou expandido com semântica/intermediário
+	•	Gerador Tac Finalizado
+	•	Gerador LLVM certo, funcionando e compilando melhorias no tacGenerator foram feitas

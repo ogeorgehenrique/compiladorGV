@@ -123,6 +123,11 @@ import sys
 # import TACGenerator
 from TACGenerator import TACGenerator
 
+# import LLVMGenerator
+
+from LLVMGenerator import LLVMGenerator
+from TACParser import carregar_tac_de_arquivo 
+
 
 def executar_scanner(input_stream):
     lexer = CompiladorGVLexer(input_stream)
@@ -232,6 +237,19 @@ def executar_tac():
     #     print(f"\033[91mErro durante a análise: {e}\033[0m")
     #     sys.exit(1)
 
+
+def executarLLVMGenerator():
+    with open("saida.tac", "r") as f:
+        tac_instrs = carregar_tac_de_arquivo(f.read())
+    
+    llvm_gen = LLVMGenerator(tac_instrs)
+    llvm_ir = llvm_gen.gerar()
+
+    with open("main.ll", "w") as f:
+        f.write(llvm_ir)
+    
+    print("✅ LLVM IR gerado em 'main.ll'")
+
 def main(argv):
     if len(argv) < 2:
         print("Uso: python compila.py <arquivo_fonte>")
@@ -256,6 +274,14 @@ def main(argv):
     print("\n🚧  Etapa 4:  - Geração de Código Intermediário (TAC)")
     print("")
     executar_tac()
+
+    # print("\n📄 Instruções TAC:")
+    # for instr in tac_generator.instrucoes:
+    #     print(instr)
+
+    print("\nEtapa 5: - Geração de Código llvm")
+    print("")
+    executarLLVMGenerator()
 
 if __name__ == '__main__':
     main(sys.argv)

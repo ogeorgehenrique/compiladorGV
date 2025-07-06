@@ -71,7 +71,8 @@ class TACGenerator(CompiladorGVVisitor):
                 temp = self.novo_temp()
                 self.add_instrucao(TAC_Instruction(operador, temp, esquerda, direita))
                 print(f"\033[94m[DEBUG] EXPRESSAO BINARIA: {esquerda} {operador} {direita} → {temp}\033[0m")
-                return temp
+                return temp  # já é TAC_Operand, corrigido aqui
+
             else:
                 print(f"\033[91m[ERRO SEMÂNTICO] Operador inválido: {operador}\033[0m")
                 return None
@@ -121,63 +122,79 @@ class TACGenerator(CompiladorGVVisitor):
             temp = self.novo_temp()
             self.add_instrucao(TAC_Instruction("call", temp, TAC_Operand("func", nome_funcao)))
             print(f"\033[94m[DEBUG] FUNÇÃO → {temp} = call {nome_funcao}({len(argumentos)} args)\033[0m")
-            return temp
+            return temp  # já é TAC_Operand, corrigido aqui
 
         # EXPRESSÕES COMPOSTAS/ENCADEADAS COM 5 OU MAIS FILHOS
         elif filhos >= 5:
             print(f"\033[93m[DEBUG] EXPRESSAO ENCADEADA COMPLEXA (n={filhos})\033[0m")
-            atual = self.visit(ctx.getChild(0))
 
+            atual = self.visit(ctx.getChild(0))
             i = 1
+
             while i < filhos - 1:
                 operador = ctx.getChild(i).getText()
                 proxima = self.visit(ctx.getChild(i + 1))
+
+                if operador not in ['+', '-', '*', '/', '==', '!=', '<', '<=', '>', '>=', '&&', '||']:
+                    print(f"\033[91m[ERRO SEMÂNTICO] Operador inválido em expressão encadeada: {operador}\033[0m")
+                    return None
+
                 temp = self.novo_temp()
                 self.add_instrucao(TAC_Instruction(operador, temp, atual, proxima))
                 print(f"\033[94m[DEBUG] EXPRESSAO ENCADEADA: {atual} {operador} {proxima} → {temp}\033[0m")
                 atual = temp
                 i += 2
 
-            return atual
+            return atual  # já é TAC_Operand, corrigido aqui
 
         # Fallback (casos não tratados)
         print("\033[93m[DEBUG] Fallback: expressão não reconhecida\033[0m")
         return None
 
-    
     def visitCondicao(self, ctx):
-        filhos = ctx.getChildCount()
-        texto = ctx.getText()
-        print(f"\033[91m[DEBUG] CONDICAO: {texto} ({filhos} filhos)\033[0m")
+        n = ctx.getChildCount()
 
-        if filhos == 3:
-            esq = ctx.getChild(0)
-            op = ctx.getChild(1).getText()
-            dir = ctx.getChild(2)
-
-            # Recursivamente visita condicoes
-            if hasattr(esq, 'condicao') or isinstance(esq, type(ctx)):
-                arg1 = self.visit(esq)
-            else:
-                arg1 = self.visit(esq)
-
-            if hasattr(dir, 'condicao') or isinstance(dir, type(ctx)):
-                arg2 = self.visit(dir)
-            else:
-                arg2 = self.visit(dir)
-
-            temp = self.novo_temp()
-            self.add_instrucao(TAC_Instruction(op, temp, arg1, arg2))
-            print(f"\033[92m[DEBUG] CONDICAO BINARIA: {arg1} {op} {arg2} → {temp}\033[0m")
-            return temp
-
-        elif filhos == 3 and ctx.getChild(0).getText() == '(':
+        # Condição entre parênteses
+        if n == 3 and ctx.getChild(0).getText() == '(' and ctx.getChild(2).getText() == ')':
             return self.visit(ctx.getChild(1))
 
-        else:
-            print("\033[91m[ERRO] Condição inválida ou não suportada ainda\033[0m")
-            return None
+        # Condição binária: expressao operador expressao
+        elif n == 3 and ctx.getChild(1).getText() in ['==', '!=', '>', '<', '>=', '<=']:
+            arg1 = self.visit(ctx.getChild(0))
+            arg2 = self.visit(ctx.getChild(2))
+            if arg1 is None or arg2 is None:
+                print("[ERRO] Argumento nulo na condição")
+                return None
+            temp = self.novo_temp()
+            self.add_instrucao(TAC_Instruction(ctx.getChild(1).getText(), temp, arg1, arg2))
+            return temp
 
+        # Condição lógica AND
+        elif n == 3 and ctx.getChild(1).getText() == '&&':
+            arg1 = self.visit(ctx.getChild(0))
+            arg2 = self.visit(ctx.getChild(2))
+            if arg1 is None or arg2 is None:
+                print("[ERRO] Argumento nulo na condição AND")
+                return None
+            temp = self.novo_temp()
+            self.add_instrucao(TAC_Instruction('&&', temp, arg1, arg2))
+            return temp
+
+        # Condição lógica OR
+        elif n == 3 and ctx.getChild(1).getText() == '||':
+            arg1 = self.visit(ctx.getChild(0))
+            arg2 = self.visit(ctx.getChild(2))
+            if arg1 is None or arg2 is None:
+                print("[ERRO] Argumento nulo na condição OR")
+                return None
+            temp = self.novo_temp()
+            self.add_instrucao(TAC_Instruction('||', temp, arg1, arg2))
+            return temp
+
+        # Caso não suportado
+        else:
+            print("[ERRO] Condição inválida ou não suportada")
+            return None
 
 
     def visitComando_se(self, ctx):

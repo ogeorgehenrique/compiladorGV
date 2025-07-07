@@ -501,9 +501,10 @@ Fluxo executado por `visitInicio()`:
 - visitComando_declaracao(...)
 - visitComando_escrever(...)
 - visitComando_retorno(...)
+
 É uma chamada recursiva em profundidade que processa o programa de cima para baixo.
 
-O método `v`sitInicio()` é como apertar o botão “executar”: ele ativa toda a visitação que transforma a estrutura da AST em um conjunto de instruções TAC. Seu papel é fundamental, mesmo parecendo simples — ele garante que nada no programa ficará sem ser traduzido.
+O método `visitInicio()` é como apertar o botão “executar”: ele ativa toda a visitação que transforma a estrutura da AST em um conjunto de instruções TAC. Seu papel é fundamental, mesmo parecendo simples — ele garante que nada no programa ficará sem ser traduzido.
 
 ---
 **7. def visitComando_declaracao(self, ctx):**
@@ -540,14 +541,13 @@ Ou seja, a linguagem permite:
 Verifica se há uma expressão presente após o sinal =.
 Se for `int x = 2 + 3;` então `ctx.expressao()` é a subárvore da expressão 2 + 3.
 
-- ```if expressao_ctx:
-    valor = self.visit(expressao_ctx)
-    self.add_instrucao(TAC_Instruction("=", TAC_Operand("var", nome), valor))
-  ```
-
+- if expressao_ctx:
+  		valor = self.visit(expressao_ctx)
+  		self.add_instrucao(TAC_Instruction("=", TAC_Operand("var", nome), valor))
+  
   	1.	self.visit(expressao_ctx):
   Processa a expressão recursivamente gerando TAC para calcular a expressão `(ex: 2 + 3 → _t0)` e retorna o resultado `(ex: _t0)`.
-	3.	TAC_Instruction("=", ...):
+	2.	TAC_Instruction("=", ...):
 	•	Cria uma instrução de atribuição no estilo: `x = _t0`
 Aqui, `TAC_Operand("var", nome)` representa o destino da atribuição (x), e valor é o resultado da expressão.
 
@@ -555,31 +555,574 @@ Aqui, `TAC_Operand("var", nome)` representa o destino da atribuição (x), e val
 
 O método não precisa retornar nada; sua única função é gerar código.
 
-**3. def nova_label(self):**
+O visitComando_declaracao() é essencial para capturar corretamente a criação de variáveis e suas inicializações no programa. Ele mostra como a semântica de uma linguagem de alto nível é traduzida para TAC, de forma estruturada, clara e modular.
+
+---
+**8. visitComando_atribuicao(self, ctx):**
+
+Esse método é chamado quando o analisador encontra uma atribuição no código-fonte, como: `x = 5 + 3;` e seu papel é traduzir essa atribuição para uma ou mais instruções TAC, gerando os temporários intermediários e atribuindo corretamente o resultado.
+```
+ def visitComando_atribuicao(self, ctx):
+        nome = ctx.atribuicao().ID().getText()
+        valor = self.visit(ctx.atribuicao().expressao())
+        self.add_instrucao(TAC_Instruction("=", TAC_Operand("var", nome), valor))
+        return None
+```
+Esse método corresponde à regra de declaração da sua gramática ANTLR:
+```
+comando_atribuicao
+    : atribuicao FINAL
+    ;
+
+atribuicao
+    : ID RECEBE expressao
+    ;	
+```
+- nome = ctx.atribuicao().ID().getText()
+
+Acessa o identificador da variável do lado esquerdo da atribuição. `ctx.atribuicao()` acessa a sub-regra atribuicao dentro da classe `CompiladorGVParser(Parser):`, já o `.ID().getText()` retorna o nome da variável como string — por exemplo: "x".
+
+- valor = self.visit(ctx.atribuicao().expressao())
+
+Visita recursivamente a expressão do lado direito da atribuição:
+```
+x = 5 + 3;  →  expressao = 5 + 3
+```
+Isso pode gerar uma ou mais instruções TAC como: `_t0 = 5 + 3`, o valor retornado (_t0, 5, etc.) será usado como fonte da atribuição.
+
+- self.add_instrucao(TAC_Instruction("=", TAC_Operand("var", nome), valor))
+
+Gera a instrução de atribuição no formato TAC: `x = _t0`
+
+- return None
+
+O método não retorna nada; sua função é exclusivamente gerar as instruções TAC e armazená-las na lista self.instrucoes.
+
+Exemplo de funcionamento:
+```
+Código-fonte: total = a + b * 2;
+
+TAC gerado:
+_t0 = b * 2
+_t1 = a + _t0
+total = _t1
+```
+As duas primeiras instruções são geradas pelo `visitExpressao()`; a terceira é gerada aqui, em `visitComando_atribuicao()`.
+
+- Comparação com visitComando_declaracao()
+
+| Aspecto                | Declaração (`int x = ...`)          | Atribuição (`x = ...`)              |
+|------------------------|-------------------------------------|-------------------------------------|
+| Nome do método         | `visitComando_declaracao()`         | `visitComando_atribuicao()`         |
+| Cria variável?         | Sim (implícito)                     | Não — apenas usa uma já existente   |
+| Gera instrução `x = ...`? | Sim (caso com valor inicial)     | Sim                                 |
+| Pode não gerar TAC?    | Sim (se for só `int x;`)            | Não — sempre gera `x = ...`         |
+
+---
+**9.  def visitExpressao(self, ctx):**
 Cria um novo rótulo para controle de fluxo:
 ```
 ```
-**3. def nova_label(self):**
-Cria um novo rótulo para controle de fluxo:
+# tem um erro
+**10.  def visitCondicao(self, ctx):**
+
+O visitCondicao() serve para avaliar expressões condicionais que retornam verdadeiro ou falso, gerar os temporários e instruções TAC correspondentes e preparar essas expressões para uso em estruturas de controle, como se, enquanto, para, etc. Esse método é chamado sempre que uma condição lógica ou relacional aparece no código, como: `a > b
+(a + b > c) && (d != e)`
 ```
+def visitCondicao(self, ctx):
+        filhos = ctx.getChildCount()
+        texto = ctx.getText()
+        print(f"\033[91m[DEBUG] CONDICAO: {texto} ({filhos} filhos)\033[0m")
+
+        if filhos == 3:
+            esq = ctx.getChild(0)
+            op = ctx.getChild(1).getText()
+            dir = ctx.getChild(2)
+
+            # Recursivamente visita condicoes
+            if hasattr(esq, 'condicao') or isinstance(esq, type(ctx)):
+                arg1 = self.visit(esq)
+            else:
+                arg1 = self.visit(esq)
+
+            if hasattr(dir, 'condicao') or isinstance(dir, type(ctx)):
+                arg2 = self.visit(dir)
+            else:
+                arg2 = self.visit(dir)
+
+            temp = self.novo_temp()
+            self.add_instrucao(TAC_Instruction(op, temp, arg1, arg2))
+            print(f"\033[92m[DEBUG] CONDICAO BINARIA: {arg1} {op} {arg2} → {temp}\033[0m")
+            return temp
+
+        elif filhos == 3 and ctx.getChild(0).getText() == '(':
+            return self.visit(ctx.getChild(1))
+
+        else:
+            print("\033[91m[ERRO] Condição inválida ou não suportada ainda\033[0m")
+            return None
 ```
-**3. def nova_label(self):**
-Cria um novo rótulo para controle de fluxo:
+Esse método corresponde à regra de declaração da sua gramática ANTLR:
 ```
+condicao
+    : expressao operador expressao
+    | condicao AND condicao
+    | condicao OR condicao
+    | ABRE_PAR condicao FECHA_PAR
+    ;
 ```
-**3. def nova_label(self):**
-Cria um novo rótulo para controle de fluxo:
+- Cabeçalho (primeiras 3 linhas)
 ```
+filhos = ctx.getChildCount()
+texto = ctx.getText()
+print(f"\033[91m[DEBUG] CONDICAO: {texto} ({filhos} filhos)\033[0m")
 ```
-**3. def nova_label(self):**
-Cria um novo rótulo para controle de fluxo:
+essa etapa extrai os filhos: número de elementos na árvore sintática, o texto: representação textual da condição e exibe no terminal o que está sendo processado, útil para depuração.
+-  Caso 1: Condição binária simples (ex: a < b)
 ```
+if filhos == 3:
+    esq = ctx.getChild(0)
+    op = ctx.getChild(1).getText()
+    dir = ctx.getChild(2)
 ```
-**3. def nova_label(self):**
-Cria um novo rótulo para controle de fluxo:
+Identifica o padrão: algo operador algo `a < b`
+- Visita recursiva dos operandos (ainda dentro do caso 1)
 ```
+if hasattr(esq, 'condicao') or isinstance(esq, type(ctx)):
+    arg1 = self.visit(esq)
+else:
+    arg1 = self.visit(esq)
+
+if hasattr(dir, 'condicao') or isinstance(dir, type(ctx)):
+    arg2 = self.visit(dir)
+else:
+    arg2 = self.visit(dir)
+```
+A lógica acima garante que tanto os operandos simples quanto os compostos (aninhados) sejam processados corretamente.
+-  Geração da instrução TAC
+```
+temp = self.novo_temp()
+self.add_instrucao(TAC_Instruction(op, temp, arg1, arg2))
+print(f"\033[92m[DEBUG] CONDICAO BINARIA: {arg1} {op} {arg2} → {temp}\033[0m")
+return temp
+```
+Gera uma instrução TAC correspondente: `_t0 = a < b` ou `_t1 = _t0 && _t2`
+Retorna o temporário resultante para ser usado em instruções if, if_false, etc.
+
+- Caso 2: Condição entre parênteses
+Realiza a visita ao conteúdo entre os parênteses, ignorando ( e ).
+```
+elif filhos == 3 and ctx.getChild(0).getText() == '(':
+    return self.visit(ctx.getChild(1))
+```
+---
+
+**11. def visitComando_se(self, ctx):**
+
+Esse método é responsável por avaliar a condição do comando `se`, gerar labels para os ramos do `then`, `else` e para o fim do bloco condicional, produzir as instruções de desvio condicional e incondicional no TAC, Visitar e traduzir os blocos `then` e `else`, se existirem, e marcar o ponto de continuação da execução após o `se`.
+```
+def visitComando_se(self, ctx):
+        print("\033[96m[DEBUG] INICIANDO 'se'\033[0m")
+        cond_resultado = self.visit(ctx.condicao())  # _t0
+
+        label_then = self.nova_label()
+        label_else = self.nova_label()
+        label_end = self.nova_label()
+
+        print(f"\033[96m[DEBUG] Labels: THEN={label_then}, ELSE={label_else}, END={label_end}\033[0m")
+
+        self.add_instrucao(TAC_Instruction("if_goto", dest=label_then, arg1=cond_resultado))
+        self.add_instrucao(TAC_Instruction("goto", dest=label_else))
+
+        self.add_instrucao(TAC_Instruction("label", dest=label_then))
+        print("\033[96m[DEBUG] Visitando bloco THEN\033[0m")
+        for comando in ctx.bloco(0).comandos():
+            self.visit(comando)
+        self.add_instrucao(TAC_Instruction("goto", dest=label_end))
+
+        self.add_instrucao(TAC_Instruction("label", dest=label_else))
+        if ctx.SENAO():
+            print("\033[96m[DEBUG] Visitando bloco ELSE\033[0m")
+            for comando in ctx.bloco(1).comandos():
+                self.visit(comando)
+
+        self.add_instrucao(TAC_Instruction("label", dest=label_end))
+        print("\033[96m[DEBUG] Finalizando 'se'\033[0m")
+```
+- print("\033[96m[DEBUG] INICIANDO 'se'\033[0m")
+
+Imprime uma mensagem de depuração informando que o bloco se começou a ser processado. Útil para rastrear a geração do código.
+
+- cond_resultado = self.visit(ctx.condicao())  # _t0
+
+O método visit(ctx.condicao()) gera TAC para a condição lógica e retorna um operand temporário, como _t0, que conterá 1 (true) ou 0 (false).
+Exemplo: `se (a > b)` pode gerar o TAC `_t0 = a > b`
+
+-  Linhas 4–6: Geração de labels:
+```
+label_then = self.nova_label()
+label_else = self.nova_label()
+label_end = self.nova_label()
+```
+Esses labels representam:
+
+| Label        | Significado                      |
+|--------------|----------------------------------|
+| `label_then` | Início do bloco `then`           |
+| `label_else` | Início do bloco `else` (opcional)|
+| `label_end`  | Continuação após o `se`          |
+
+Eles são criados usando self.nova_label(), que gera L0, L1, etc.
+
+- print(f"\033[96m[DEBUG] Labels: THEN={label_then}, ELSE={label_else}, END={label_end}\033[0m")
+
+Debug do que foi feito, essa linha apenas exibe os labels gerados para facilitar o rastreamento.
+
+- Linhas 9–10: Desvio condicional e incondicional
+```
+self.add_instrucao(TAC_Instruction("if_goto", dest=label_then, arg1=cond_resultado))
+self.add_instrucao(TAC_Instruction("goto", dest=label_else))
+```
+Se a condição for verdadeira (if_goto), vá para o bloco then. Caso contrário, vá diretamente para else: `if _t0 goto L0`
+`goto L1`
+
+- Linhas 12–14: Marca e executa o bloco THEN
+```
+self.add_instrucao(TAC_Instruction("label", dest=label_then))
+print("\033[96m[DEBUG] Visitando bloco THEN\033[0m")
+for comando in ctx.bloco(0).comandos():
+    self.visit(comando)
+```
+label_then é colocado no TAC.
+Cada comando do bloco then é visitado e traduzido.
+
+- self.add_instrucao(TAC_Instruction("goto", dest=label_end))
+Evita que o código do else seja executado caso o then já tenha sido.
+
+- Linhas 17–21: Verifica se há bloco ELSE
+```
+self.add_instrucao(TAC_Instruction("label", dest=label_else))
+if ctx.SENAO():
+    print("\033[96m[DEBUG] Visitando bloco ELSE\033[0m")
+    for comando in ctx.bloco(1).comandos():
+        self.visit(comando)
+```
+Marca o label do else.
+1. 	Se SENAO estiver presente no código-fonte, o bloco else é traduzido normalmente.
+2. 	Se não houver senao, apenas o label é gerado como destino do salto anterior.
+
+- self.add_instrucao(TAC_Instruction("label", dest=label_end))
+
+Marca o fim da estrutura se, indicando onde a execução deve continuar, sendo fundamental para aninhamento de condicionais.
+
+- print("\033[96m[DEBUG] Finalizando 'se'\033[0m")
+Mensagem de Degub que indica o fim do código.
+```
+COGIGO FONTE
+int a = 3;
+int b = 5;
+se (a < b) {
+  escreva("menor");
+} senao {
+  escreva("maior ou igual");
+}
+
+TAC GERADO
+_t0 = a < b
+if _t0 goto L0
+goto L1
+L0:
+print "menor"
+goto L2
+L1:
+print "maior ou igual"
+L2:
+```
+---
+**12. def visitComando_enquanto(self, ctx):**
+
+Este método é responsável por cuidar da tradução da estrutura de repetição enquanto (equivalente ao while do C) para código intermediário TAC. Esse metodo Gera o fluxo de controle para laços enquanto, traduz a condição do laço em TAC, cria labels para marcar o início e o fim do loop e garante que o corpo do loop seja reavaliado enquanto a condição for verdadeira.
+```
+def visitComando_enquanto(self, ctx):
+        print("\033[95m[DEBUG] INICIANDO 'enquanto'\033[0m")
+
+        label_inicio = self.nova_label()
+        label_fim = self.nova_label()
+
+        print(f"\033[95m[DEBUG] Labels: INICIO={label_inicio}, FIM={label_fim}\033[0m")
+
+        self.add_instrucao(TAC_Instruction("label", dest=label_inicio))
+
+        cond_resultado = self.visit(ctx.condicao())
+        print(f"\033[95m[DEBUG] CONDICAO: {cond_resultado}\033[0m")
+
+        # Correção: if_false condicao goto FIM
+        self.add_instrucao(TAC_Instruction("if_false", dest=label_fim, arg1=cond_resultado))
+
+        print("\033[95m[DEBUG] Visitando bloco do 'enquanto'\033[0m")
+        for comando in ctx.bloco().comandos():
+            self.visit(comando)
+
+        self.add_instrucao(TAC_Instruction("goto", dest=label_inicio))
+        self.add_instrucao(TAC_Instruction("label", dest=label_fim))
+        print("\033[95m[DEBUG] Finalizando 'enquanto'\033[0m")
 ```
 
+- print("\033[95m[DEBUG] INICIANDO 'enquanto'\033[0m")
+
+Mensagem de depuração para identificar o início da tradução do laço enquanto.
+
+- Linhas 2 e 3: Geração dos labels de controle
+```
+label_inicio = self.nova_label()
+label_fim = self.nova_label()
+```
+Dois labels são gerados: `label_inicio` que marca o ponto de reavaliação da condição e `label_fim` que marca o fim do laço. Esses labels são essenciais para manter o controle do fluxo durante a execução do loop.
+
+- print(f"\033[95m[DEBUG] Labels: INICIO={label_inicio}, FIM={label_fim}\033[0m")
+
+Mostra os nomes gerados dos labels para fins de depuração.
+
+- self.add_instrucao(TAC_Instruction("label", dest=label_inicio))
+Esse label será o ponto de retorno após cada iteração do laço.
+
+- Linha 10 e 11: Geração da condição
+```
+cond_resultado = self.visit(ctx.condicao())
+print(f"\033[95m[DEBUG] CONDICAO: {cond_resultado}\033[0m")
+```
+`self.visit(ctx.condicao())` avalia a condição do laço e gera o TAC correspondente. O resultado é um temporário (ex: _t0) com valor 1 (true) ou 0 (false).
+
+- self.add_instrucao(TAC_Instruction("if_false", dest=label_fim, arg1=cond_resultado))
+Aqui está o coração da lógica:
+1. Se a condição for falsa, salta para label_fim, encerrando o laço.
+2. Caso contrário, continua para o corpo do loop. O TAC gerado: `ifFalse _t0 goto L1`
+
+- Linhas 16, 17 e 18: Tradução do corpo do laço
+```
+print("\033[95m[DEBUG] Visitando bloco do 'enquanto'\033[0m")
+for comando in ctx.bloco().comandos():
+    self.visit(comando)
+```
+Visita e traduz cada comando contido no corpo do enquanto e gera as instruções correspondentes ao que está dentro do laço.
+
+- self.add_instrucao(TAC_Instruction("goto", dest=label_inicio))
+
+Garante que, após executar o corpo, a condição será reavaliada. Esse é o comportamento esperado de um while: repetição com verificação antes.
+
+- self.add_instrucao(TAC_Instruction("label", dest=label_fim))
+
+Marca o ponto após o enquanto, ou seja, para onde o programa deve ir caso a condição não seja satisfeita.
+
+- print("\033[95m[DEBUG] Finalizando 'enquanto'\033[0m")
+
+Mensagem de depuração para identificar a finalização do laço enquanto.
+Exemplo:
+```
+CODIGO FONTE
+int i = 0;
+enquanto(i < 5) {
+    escreva(i);
+    i = i + 1;
+}
+
+TAC GERADO
+i = 0
+L0:
+_t0 = i < 5
+ifFalse _t0 goto L1
+print i
+_t1 = i + 1
+i = _t1
+goto L0
+L1:
+```
+---
+
+**13.def visitComando_para(self, ctx):**
+
+Esse método é responsável por traduzir o comando para (equivalente ao for em C) em código intermediário TAC.
+```
+def visitComando_para(self, ctx):
+        self.visit(ctx.atribuicao())  # inicialização
+
+        label_cond = self.nova_label()
+        label_fim = self.nova_label()
+
+        self.add_instrucao(TAC_Instruction("label", dest=label_cond))
+
+        cond = self.visit(ctx.condicao())
+        # Correção aqui
+        self.add_instrucao(TAC_Instruction("if_false", dest=label_fim, arg1=cond))
+
+        for comando in ctx.bloco().comandos():
+            self.visit(comando)
+
+        self.visit(ctx.incremento())
+        self.add_instrucao(TAC_Instruction("goto", dest=label_cond))
+        self.add_instrucao(TAC_Instruction("label", dest=label_fim))
+```
+O comando para em sua forma clássica:
+```
+para(inicialização; condição; incremento) {
+    // corpo
+}
+```
+é traduzido para o TAC usando:
+1.	Inicialização → executada apenas uma vez;
+2.	Condição → verificada antes de cada iteração;
+3.	Incremento → executado ao fim de cada iteração;
+4.	Bloco → corpo principal do loop.
+
+- def visitComando_para(self, ctx):
+
+Executa a inicialização (ex: i = 0). Isso acontece antes do loop começar.
+
+- Linhas 3 e 4: Geração dos labels
+```
+label_cond = self.nova_label()
+label_fim = self.nova_label()
+```
+A `label_cond` marca o ponto de verificação da condição e a `label_fim` marca o fim do laço.
+
+- self.add_instrucao(TAC_Instruction("label", dest=label_cond))
+
+O início da verificação de condição é marcado com label_cond.
+
+- cond = self.visit(ctx.condicao())
+
+Visita e avalia a condição do for, que deve resultar em um valor booleano (normalmente 1 ou 0), depois retorna um TAC_Operand contendo o temporário com o resultado que é atribuido a variável cond.
+
+- self.add_instrucao(TAC_Instruction("if_false", dest=label_fim, arg1=cond))
+
+Se a condição for falsa, salta para o final do laço (label_fim), do contrário, executa o corpo do laço.
+
+- Linhas 12 e 13: Execução do corpo
+```
+for comando in ctx.bloco().comandos():
+    self.visit(comando)
+```
+Visita e traduz cada comando do bloco do para. isso gera instruções TAC para o corpo do loop.
+
+- self.visit(ctx.incremento())
+
+Após o corpo, visita o incremento (ex: i = i + 1, i++, i--, etc). Executa esse trecho antes de voltar à verificação da condição.
+
+- self.add_instrucao(TAC_Instruction("goto", dest=label_cond))
+
+Faz o salto para reavaliar a condição, fechando o ciclo do loop.
+
+- self.add_instrucao(TAC_Instruction("label", dest=label_fim))
+
+Marca o local onde a execução continuará caso a condição seja falsa. Serve de ponto de escape do loop.
+Exemplo:
+```
+CODIGO FONTE
+para(i = 0; i < 3; i = i + 1) {
+    escreva(i);
+}
+
+TAC GERADO
+i = 0
+L0:
+_t0 = i < 3
+ifFalse _t0 goto L1
+print i
+_t1 = i + 1
+i = _t1
+goto L0
+L1:
+```
+Explicação do TAC gerado
+
+| Parte | TAC gerado                  | Finalidade                            |
+|-------|-----------------------------|----------------------------------------|
+| 1     | `i = 0`                     | Inicializa a variável de controle      |
+| 2     | `L0:`                       | Label para início do loop              |
+| 3     | `_t0 = i < 3`               | Avalia a condição                      |
+| 4     | `ifFalse _t0 goto L1`       | Sai do loop se condição for falsa      |
+| 5     | `print i`                   | Executa o corpo                        |
+| 6     | `_t1 = i + 1; i = _t1`      | Executa o incremento                   |
+| 7     | `goto L0`                   | Volta para a reavaliação               |
+| 8     | `L1:`                       | Ponto após o fim do loop               |
+
+---
+
+**14.def visitComando_retorno(self, ctx):**
+
+visitComando_retorno
+
+Este método é responsável por traduzir o comando retorna da linguagem de alto nível para uma instrução TAC do tipo return. Essa instrução é crucial para indicar o fim da execução de uma função e (opcionalmente) o valor que deve ser devolvido.
+
+```
+def visitComando_retorno(self, ctx):
+        print(f"\033[92m[DEBUG] ENTRANDO EM visitComando_retorno\033[0m")
+
+        valor = self.visit(ctx.expressao()) if ctx.expressao() else None
+
+        if valor:
+            self.add_instrucao(TAC_Instruction("return", arg1=valor))
+            print(f"\033[92m[DEBUG] RETORNO: return {valor}\033[0m")
+        else:
+            self.add_instrucao(TAC_Instruction("return"))
+            print("\033[91m[ERRO SEMÂNTICO] Retorno sem valor detectado!\033[0m")
+```
+
+- def visitComando_retorno(self, ctx):
+
+Define o visitante para a regra comando_retorno da sua gramática (que deve corresponder a algo como retorna expressao;).
+
+- print(f"\033[92m[DEBUG] ENTRANDO EM visitComando_retorno\033[0m")
+
+Um DEBUG é exibido no terminal para acompanhamento da execução.
+
+- valor = self.visit(ctx.expressao()) if ctx.expressao() else None
+
+1. Verifica se há uma expressão presente no retorna (ex: retorna 10;, retorna a + b;)
+2. Se houver, chama self.visit(ctx.expressao()) para avaliar a expressão e gerar TAC para ela.
+3. O resultado disso será uma instância de TAC_Operand representando o valor a ser retornado.
+4. Se não houver expressão (ex: retorna;), o valor será None.
+
+- Linha 5, 6 e 7: Geração da instrução TAC
+```
+if valor:
+    self.add_instrucao(TAC_Instruction("return", arg1=valor))
+    print(f"\033[92m[DEBUG] RETORNO: return {valor}\033[0m")
+```
+Se valor não for None, significa que temos um retorno com valor. O TAC gerado será algo como: `return _t0`, onde _t0 representa o resultado da expressão avaliada. por fim, a instrução é adicionada à lista com: `self.add_instrucao(...)`
+
+- Linhas 8, 9 e 10: Retorno sem valor
+```
+else:
+    self.add_instrucao(TAC_Instruction("return"))
+    print("\033[91m[ERRO SEMÂNTICO] Retorno sem valor detectado!\033[0m")
+```
+Se não houver expressão (ctx.expressao() == None), adiciona a instrução TAC: `return`
+Emite um alerta de erro semântico porque em linguagens fortemente tipadas, toda função com tipo de retorno definido deve retornar um valor.
+```
+EXEMPLO DE ERRO:
+int soma(int a, int b) {
+    retorna;
+}
+```
+Isso pode causar problemas na etapa de geração de código final ou execução.
+Exemplo de uso:
+```
+CODIGO FONTE:
+int soma(int a, int b) {
+    int r = a + b;
+    retorna r;
+}
+
+TAC GERADO
+_t0 = a + b
+r = _t0
+return r
+```
+
+- Papel da instrução return no TAC
+
+A instrução return tem papel fundamental pois, indica o ponto de saída da função, permite retornar um valor para quem chamou a função (ex: soma(2,3)) e é uma das formas de controle de fluxo do TAC, como goto, if_goto, etc.
 
 
 

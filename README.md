@@ -152,6 +152,15 @@ dot -Tpng saida_ast.dot -o saida_ast.png
 # Rodar o Analizador sintático:
 python main.py exemplos/comErro.txt
 
+# Para rodar tudo ate o LLVM: 
+python compila.py exemplos/Codigo
+
+
+
+
+
+
+
 ```
 ---
 # 📊 Status do Projeto

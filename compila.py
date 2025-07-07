@@ -128,6 +128,10 @@ from TACGenerator import TACGenerator
 from LLVMGenerator import LLVMGenerator
 from TACParser import carregar_tac_de_arquivo 
 
+# compilar o codigo final 
+
+import subprocess
+
 
 def executar_scanner(input_stream):
     lexer = CompiladorGVLexer(input_stream)
@@ -250,6 +254,28 @@ def executarLLVMGenerator():
     
     print("✅ LLVM IR gerado em 'main.ll'")
 
+import subprocess
+import platform
+import os
+
+def compilar_e_rodar_llvm():
+    sistema = platform.system()
+
+    # Compilar o LLVM IR
+    subprocess.run(["clang", "main.ll", "-o", "main.exe" if sistema == "Windows" else "main"], check=True)
+    
+    # Rodar o executável
+    if sistema == "Windows":
+        resultado = subprocess.run(["main.exe"], capture_output=True, text=True)
+    else:
+        # Garante permissão de execução em Unix
+        os.chmod("main", 0o755)
+        resultado = subprocess.run(["./main"], capture_output=True, text=True)
+
+    print("Saída do programa: \n")
+    print(resultado.stdout)
+
+
 def main(argv):
     if len(argv) < 2:
         print("Uso: python compila.py <arquivo_fonte>")
@@ -275,13 +301,13 @@ def main(argv):
     print("")
     executar_tac()
 
-    # print("\n📄 Instruções TAC:")
-    # for instr in tac_generator.instrucoes:
-    #     print(instr)
-
     print("\nEtapa 5: - Geração de Código llvm")
     print("")
     executarLLVMGenerator()
+
+    print("\nEtapa 6: - Compila o codigo .ll")
+    print("")
+    compilar_e_rodar_llvm()
 
 if __name__ == '__main__':
     main(sys.argv)

@@ -13,9 +13,11 @@ Etapa 3 – Geração de Código Intermediário (TAC)
 
 ## O que é TAC? Conceito e Objetivo
 
-Definição
+O TAC (Código de Três Endereços) é um tipo de linguagem intermediária usada durante a compilação. Ele fica entre o código-fonte escrito pelo programador (como C ou Python) e o código de máquina final (executado pelo processador).
 
-TAC (Three Address Code) é uma forma de representação intermediária entre o código fonte e o código de máquina. Cada instrução do TAC realiza no máximo uma operação e trabalha, geralmente, com três operandos: dois de entrada e um de saída.
+Cada linha (ou instrução) em TAC é bem simples: ela faz apenas uma operação por vez (como uma soma, comparação ou atribuição) e usa, no máximo, três valores:
+- Dois valores de entrada (ex: a e b)
+- Um local onde o resultado será guardado (ex: _t1)
 
 Por que usar TAC?
 - Independência da máquina: Não é ligado à arquitetura física do processador.
@@ -34,6 +36,12 @@ _t1 = a + b
 _t2 = c - d
 x = _t1 * _t2
 ```
+Veja como ele quebra a expressão complexa em operações simples, que usam **três “endereços” por vez:**
+- Dois operandos de entrada (como b e c)
+- Um operando de saída (como _t1)
+
+O TAC serve como uma forma intermediária e simplificada de representar o que o programa faz, dividindo tudo em pequenas operações que usam no máximo três partes: dois dados de entrada e um local para guardar o resultado.
+
 ## Anatomia de uma Instrução TAC
 
 Cada instrução no TAC segue a estrutura:

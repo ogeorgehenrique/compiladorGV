@@ -491,6 +491,7 @@ inicio
 ```
 Ou seja, o nó inicio contém uma lista de comandos que compõem o programa-fonte. Logo, `visitInicio()` deve chamar os visitadores apropriados para todos esses comandos — e isso é feito via `self.visitChildren(ctx)`.
 - self.visitChildren(ctx)
+
 Chama automaticamente o método `visitXXX()` correspondente para cada filho de ctx. Como ctx é um InicioContext, seus filhos são ComandosContext (cada comando no programa).
 Exemplo:
 ```

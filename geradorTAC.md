@@ -570,6 +570,20 @@ Aqui, `TAC_Operand("var", nome)` representa o destino da atribuição (x), e val
 
 O método não precisa retornar nada; sua única função é gerar código.
 
+```
+CODIGO FONTE:
+int f;
+int a = 2+2;
+int b = 2;
+
+TAC GERADO:
+_t0 = 2 + 2
+a = _t0
+b = 2
+
+```
+
+
 O visitComando_declaracao() é essencial para capturar corretamente a criação de variáveis e suas inicializações no programa. Ele mostra como a semântica de uma linguagem de alto nível é traduzida para TAC, de forma estruturada, clara e modular.
 
 ---

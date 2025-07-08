@@ -550,10 +550,12 @@ Ou seja, a linguagem permite:
 Verifica se há uma expressão presente após o sinal =.
 Se for `int x = 2 + 3;` então `ctx.expressao()` é a subárvore da expressão 2 + 3.
 
-- if expressao_ctx:
-  		valor = self.visit(expressao_ctx)
-  		self.add_instrucao(TAC_Instruction("=", TAC_Operand("var", nome), valor))
-  
+- Linhas 4, 5 e 6: 
+```
+if expressao_ctx:
+	valor = self.visit(expressao_ctx)
+	self.add_instrucao(TAC_Instruction("=", TAC_Operand("var", nome), valor))
+```
   	1.	self.visit(expressao_ctx):
   Processa a expressão recursivamente gerando TAC para calcular a expressão `(ex: 2 + 3 → _t0)` e retorna o resultado `(ex: _t0)`.
 	2.	TAC_Instruction("=", ...):

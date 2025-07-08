@@ -572,7 +572,6 @@ O método não precisa retornar nada; sua única função é gerar código.
 
 ```
 CODIGO FONTE:
-int f;
 int a = 2+2;
 int b = 2;
 

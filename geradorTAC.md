@@ -556,10 +556,14 @@ if expressao_ctx:
 	valor = self.visit(expressao_ctx)
 	self.add_instrucao(TAC_Instruction("=", TAC_Operand("var", nome), valor))
 ```
-  	1.	self.visit(expressao_ctx):
-  Processa a expressão recursivamente gerando TAC para calcular a expressão `(ex: 2 + 3 → _t0)` e retorna o resultado `(ex: _t0)`.
-	2.	TAC_Instruction("=", ...):
-	•	Cria uma instrução de atribuição no estilo: `x = _t0`
+
+1. valor = self.visit(expressao_ctx)
+
+Processa a expressão recursivamente gerando TAC para calcular a expressão `(ex: 2 + 3 → _t0)` e retorna o resultado `(ex: _t0)`.
+
+2. self.add_instrucao(TAC_Instruction("=", TAC_Operand("var", nome), valor))
+
+Cria uma instrução de atribuição no estilo: `x = _t0`
 Aqui, `TAC_Operand("var", nome)` representa o destino da atribuição (x), e valor é o resultado da expressão.
 
 - return None

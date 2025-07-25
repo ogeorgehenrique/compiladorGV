@@ -1,16 +1,12 @@
- int soma(int a, int b) {
-    int resultado = a + b;
-    retorna resultado;
-}
-   
-
 int main() {
     int i = 0;
     int total = 0;
 
     enquanto(i < 5) {
-        total = total + soma(i, 2);
+        total = total + 1;
         i = i + 1;
     }
+    escreva("resultado:");
+    escreva(total);
     retorna 0;
 }

@@ -254,25 +254,53 @@ class TACGenerator(CompiladorGVVisitor):
 
     
 
+    # def visitComando_para(self, ctx):
+    #     self.visit(ctx.atribuicao())  # inicialização
+
+    #     label_cond = self.nova_label()
+    #     label_fim = self.nova_label()
+
+    #     self.add_instrucao(TAC_Instruction("label", dest=label_cond))
+
+    #     cond = self.visit(ctx.condicao())
+    #     # Correção aqui
+    #     self.add_instrucao(TAC_Instruction("if_false", dest=label_fim, arg1=cond))
+
+    #     for comando in ctx.bloco().comandos():
+    #         self.visit(comando)
+
+    #     self.visit(ctx.incremento())
+    #     self.add_instrucao(TAC_Instruction("goto", dest=label_cond))
+    #     self.add_instrucao(TAC_Instruction("label", dest=label_fim))
     def visitComando_para(self, ctx):
-        self.visit(ctx.atribuicao())  # inicialização
+        # Inicialização: ex: i = 0
+        self.visit(ctx.atribuicao())
 
-        label_cond = self.nova_label()
-        label_fim = self.nova_label()
+        # Cria os labels necessários
+        label_cond = self.nova_label()  # Ponto onde condição será verificada
+        label_fim = self.nova_label()   # Saída do loop
 
+        # Marca o início da verificação da condição
         self.add_instrucao(TAC_Instruction("label", dest=label_cond))
 
+        # Avalia a condição: ex: i < 5
         cond = self.visit(ctx.condicao())
-        # Correção aqui
+
+        # Se a condição for falsa, pula para o final do loop
         self.add_instrucao(TAC_Instruction("if_false", dest=label_fim, arg1=cond))
 
+        # Corpo do loop
         for comando in ctx.bloco().comandos():
             self.visit(comando)
 
+        # Incremento: ex: i = i + 1
         self.visit(ctx.incremento())
-        self.add_instrucao(TAC_Instruction("goto", dest=label_cond))
-        self.add_instrucao(TAC_Instruction("label", dest=label_fim))
 
+        # Volta para checar a condição novamente
+        self.add_instrucao(TAC_Instruction("goto", dest=label_cond))
+
+        # Marca o fim do loop
+        self.add_instrucao(TAC_Instruction("label", dest=label_fim))
 
 
     def visitComando_retorno(self, ctx):
@@ -350,4 +378,30 @@ class TACGenerator(CompiladorGVVisitor):
         self.add_instrucao(TAC_Instruction("=", dest=TAC_Operand("var", nome_var), arg1=temp))
 
         print(f"\033[94m[DEBUG] LEIA: {nome_var} = leia() → {temp}\033[0m")
-        
+
+    
+    def visitIncremento(self, ctx):
+        if ctx.INCREMENTO():  # Caso: i++
+            var_nome = ctx.ID().getText()
+            temp1 = TAC_Operand("var", var_nome)
+            temp2 = self.novo_temp()
+
+            self.add_instrucao(TAC_Instruction("+", temp2, temp1, TAC_Operand("const", "1")))
+            self.add_instrucao(TAC_Instruction("=", temp1, temp2))
+            print(f"\033[94m[DEBUG] INCREMENTO: {var_nome}++ → {var_nome} = {var_nome} + 1\033[0m")
+
+        elif ctx.DECREMENTO():  # Caso: i--
+            var_nome = ctx.ID().getText()
+            temp1 = TAC_Operand("var", var_nome)
+            temp2 = self.novo_temp()
+
+            self.add_instrucao(TAC_Instruction("-", temp2, temp1, TAC_Operand("const", "1")))
+            self.add_instrucao(TAC_Instruction("=", temp1, temp2))
+            print(f"\033[94m[DEBUG] DECREMENTO: {var_nome}-- → {var_nome} = {var_nome} - 1\033[0m")
+
+        elif ctx.atribuicao():  # Caso: i = i + 1
+            print("\033[94m[DEBUG] INCREMENTO via atribuição direta\033[0m")
+            self.visit(ctx.atribuicao())
+
+        else:
+            print("\033[91m[ERRO] Incremento não reconhecido\033[0m")   

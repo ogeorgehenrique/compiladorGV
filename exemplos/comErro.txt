@@ -1,15 +1,4 @@
-int soma(int a, int b) {
-   
-    string resultado = a + b;
-    sei sei
-    resultado = a/0;
-   
-    int a;
-   
-    retorna amem;
-}
-
-int teste(){
-    string a;
-    retorna a;
+int main(){
+    int a
+    retorna 0;
 }

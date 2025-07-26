@@ -3,7 +3,7 @@
 O arquivo scanner.py implementa a primeira fase da compilação, chamada análise léxica, responsável por quebrar o código-fonte em unidades léxicas (tokens). Esta etapa é crucial para preparar o código para a análise sintática.
 
 
-# Objetivo da análise léxica
+# Objetivo da Análise Léxica
 
 Transformar o código-fonte bruto (texto) em uma sequência de tokens, que são unidades significativas da linguagem, como:
 - Identificadores (x, main, contador)
@@ -20,9 +20,9 @@ Transformar o código-fonte bruto (texto) em uma sequência de tokens, que são 
 | `CompiladorGVLexer.py`      | Gerado automaticamente pelo ANTLR a partir da gramática `.g4`.        |
 | `scanner.py`                | Script principal que executa a análise léxica.                         |
 | `CommonTokenStream` (ANTLR4)| Estrutura de dados que armazena os tokens extraídos.                  |
-| `MyLexerErrorListener.py` (opcional) | (Se usado) Define um ouvinte personalizado para lidar com erros léxicos de forma amigável. |
+| `MyLexerErrorListener.py` | Define um ouvinte personalizado para lidar com erros léxicos de forma amigável. |
 
-# Funcionamento detalhado
+# Como Funciona?
 
 ## 1. Leitura do arquivo-fonte
 
@@ -62,7 +62,7 @@ exemplo:
 <INTEIRO, '10', Linha 1, Coluna 15>
 ```
 
-## 5. Tratamento de erros léxicos (se implementado)
+## 5. Tratamento de erros léxicos
 
 Se o código conter símbolos inválidos (ex: @, #, &), o lexer pode disparar um erro. Caso você implemente um MyLexerErrorListener, ele pode interceptar esses erros e mostrar mensagens personalizadas, como:
 
@@ -73,3 +73,154 @@ ERRO LÉXICO [Linha 1, Coluna 5]: Símbolo '@' não reconhecido pela linguagem.
 # Importância dessa etapa
 
 A análise léxica é a base de todo o processo de compilação. Ela garante que os símbolos do código estão corretos, respeitam a sintaxe da linguagem e são compreensíveis para as etapas seguintes (sintática, semântica, etc). Um erro aqui impede qualquer análise posterior.
+
+# Entendendo o Código
+Nessa parte vamos detrinchar todas as classes que foram implementadas por mim e realizam a analise Lexica do meu compilador:
+
+## Scanner.py
+O objetivo desse script é realizar a análise léxica de um código fonte da sua linguagem, utilizando o ANTLR4, ou seja ele converte o código fonte em tokens com base na gramática léxica definida com ANTLR4.
+
+```
+from antlr4 import *                            
+from CompiladorGVLexer import CompiladorGVLexer 
+import sys
+
+def main(argv):
+    if len(argv) < 2:
+        print("Uso: python scanner.py <caminho_do_arquivo>")
+        return
+    
+
+    
+    input_file = argv[1] 
+    input_stream = FileStream(input_file, encoding="utf-8")  
+    lexer = CompiladorGVLexer(input_stream)                  
+    token = lexer.nextToken()                                
+    
+    
+    print("-" * 33)                                           
+    print(f"{'Tipo||':<5} {'Lexema||':<5} {'Linha||':<5} {'Coluna||'}")
+    print("-" * 33)
+
+    try:
+        while token.type != Token.EOF:
+            tipo_token = lexer.symbolicNames[token.type]
+            lexema = token.text
+            linha = token.line
+            coluna = token.column + 1
+
+            print(f"<{tipo_token}, '{lexema}', {linha}, {coluna}>")
+
+            token = lexer.nextToken()
+    except Exception as e:
+        print(str(e))
+        sys.exit(1)
+
+if __name__ == '__main__':
+    main(sys.argv)
+```
+
+- `from antlr4 import *`
+
+Respondavel pela importação Geral da ANTLR4, carregando todas as funcionalidades da biblioteca ANTLR4 (como FileStream, Token, etc), usadas para leitura do arquivo e geração dos tokens.
+
+- `from CompiladorGVLexer import CompiladorGVLexer`
+
+Importa a classe CompiladorGVLexer, que foi automaticamente criada com base no seu arquivo CompiladorGV.g4. Essa classe sabe como identificar palavras-chave, identificadores, operadores, números, etc., de acordo com a gramática definida.
+
+- `import sys`
+
+Permite acessar os argumentos da linha de comando (argv) e encerrar o programa (sys.exit) em caso de erro.
+
+- `def main(argv):`
+
+Função principal do programa, que executa toda a análise léxica. Recebe os argumentos da linha de comando como entrada (o nome do arquivo, por exemplo).
+
+- `if len(argv) < 2:`
+
+Verifica se o usuário passou o nome do arquivo a ser analisado. Se não passou, imprime uma mensagem de uso e encerra a função sem erro.
+  
+- `input_file = argv[1]`
+
+Captura o caminho do arquivo passado pelo usuário via terminal.
+
+- `input_stream = FileStream(input_file, encoding="utf-8")`
+
+Lê o arquivo como uma sequência de caracteres (stream). O FileStream converte o arquivo para um formato que o ANTLR consegue analisar. O encoding="utf-8" garante suporte a acentuação e símbolos especiais da língua portuguesa.
+
+- `lexer = CompiladorGVLexer(input_stream)`
+
+Instancia o analisador léxico (lexer), que processa o input_stream e gera tokens com base nas regras definidas no .g4.
+
+- `token = lexer.nextToken()`
+
+Lê o primeiro token do fluxo. A análise léxica no ANTLR é feita token por token, como uma leitura sequencial.
+
+- Impressão do cabeçalho da tabela de tokens
+```
+    print("-" * 33)
+    print(f"{'Tipo||':<5} {'Lexema||':<5} {'Linha||':<5} {'Coluna||'}")
+    print("-" * 33)
+```
+Exibe um cabeçalho no terminal, simulando uma tabela onde cada linha será um token encontrado no código.
+1. Tipo: nome simbólico do token (INT, ID, SE, ATRIB, etc.)
+2. Lexema: o texto lido do código-fonte (main, x, =, 42)
+3. Linha/Coluna: onde ele aparece no código original
+
+- Loop principal: leitura dos tokens
+```
+    try:
+        while token.type != Token.EOF:
+```
+Enquanto não for o fim do arquivo, continua lendo tokens. O tipo EOF (End Of File) indica que todos os caracteres foram processados.
+
+- `tipo_token = lexer.symbolicNames[token.type]`
+
+Cada token tem um tipo numérico, mas o ANTLR associa esse tipo a um nome simbólico definido na gramática (Nome simbólico do token), como INT, ID, SOMA, SE.
+
+- `lexema = token.text`
+
+É o trecho do código-fonte que corresponde ao token (Texto real do token (lexema)).
+Exemplo: se o token for do tipo ID, o lexema pode ser "contador".
+
+- Localização do token no código-fonte:
+```
+linha = token.line
+coluna = token.column + 1
+```
+1. linha: linha em que o token aparece.
+2. coluna: a coluna onde o lexema começa (ajustada com +1 para exibição humana, já que começa em 0).
+
+- `print(f"<{tipo_token}, '{lexema}', {linha}, {coluna}>")`
+
+Imprime o token formatado, seguindo o padrão: `<TIPO, 'lexema', linha, coluna>`
+
+Exemplo:
+```
+<ID, 'main', 1, 5>
+<INT, '10', 2, 9>
+```
+
+- `token = lexer.nextToken()`
+
+Avança para o próximo token, repetindo o processo até atingir EOF.
+
+- Tratamento de erros
+
+```
+    except Exception as e:
+        print(str(e))
+        sys.exit(1)
+```
+Caso ocorra alguma exceção inesperada, ela é exibida no terminal, e o programa encerra com status de erro.
+
+- Execução do script como principal
+```
+if __name__ == '__main__':
+    main(sys.argv)
+```
+Bloco padrão de execução em Python, Chama a função main passando os argumentos da linha de comando apenas quando o arquivo for executado diretamente (não importado como módulo).
+
+**Resumo Visual do Fluxo**
+
+`arquivo.c ➜ FileStream ➜ CompiladorGVLexer ➜ Tokens ➜ Impressão no terminal`

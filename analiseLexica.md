@@ -77,8 +77,17 @@ A análise léxica é a base de todo o processo de compilação. Ela garante que
 # Entendendo o Código
 Nessa parte vamos detrinchar todas as classes que foram implementadas por mim e realizam a analise Lexica do meu compilador:
 
-## Scanner.py
-O objetivo desse script é realizar a análise léxica de um código fonte da sua linguagem, utilizando o ANTLR4, ou seja ele converte o código fonte em tokens com base na gramática léxica definida com ANTLR4.
+# Scanner.py
+
+O scanner.py representa a etapa de análise léxica, onde:
+1. o código é lido.
+2. analisado caracter por caracter.
+3. dividido em tokens,
+4. e esses tokens são mostrados para o usuário com precisão.
+
+É a base de todo compilador, pois garante que a entrada é composta por símbolos válidos.
+
+O objetivo desse script é realizar a análise léxica de um código fonte da sua linguagem, utilizando o ANTLR4, ou seja, ele converte o código fonte em tokens com base na gramática léxica definida com ANTLR4.
 
 ```
 from antlr4 import *                            
@@ -90,14 +99,11 @@ def main(argv):
         print("Uso: python scanner.py <caminho_do_arquivo>")
         return
     
-
-    
     input_file = argv[1] 
     input_stream = FileStream(input_file, encoding="utf-8")  
     lexer = CompiladorGVLexer(input_stream)                  
     token = lexer.nextToken()                                
-    
-    
+  
     print("-" * 33)                                           
     print(f"{'Tipo||':<5} {'Lexema||':<5} {'Linha||':<5} {'Coluna||'}")
     print("-" * 33)
@@ -119,10 +125,11 @@ def main(argv):
 if __name__ == '__main__':
     main(sys.argv)
 ```
+## Código com explicações linha a linha
 
 - `from antlr4 import *`
 
-Respondavel pela importação Geral da ANTLR4, carregando todas as funcionalidades da biblioteca ANTLR4 (como FileStream, Token, etc), usadas para leitura do arquivo e geração dos tokens.
+Responsavel pela importação Geral da ANTLR4, carregando todas as funcionalidades da biblioteca ANTLR4 (como FileStream, Token, etc), usadas para leitura do arquivo e geração dos tokens.
 
 - `from CompiladorGVLexer import CompiladorGVLexer`
 
@@ -224,3 +231,203 @@ Bloco padrão de execução em Python, Chama a função main passando os argumen
 **Resumo Visual do Fluxo**
 
 `arquivo.c ➜ FileStream ➜ CompiladorGVLexer ➜ Tokens ➜ Impressão no terminal`
+
+# MyLexerErrorListener
+
+A classe MyLexerErrorListener personaliza o tratamento de erros léxicos na etapa de análise léxica do compilador. Seu principal papel é substituir a mensagem padrão do ANTLR por uma saída mais clara, objetiva e compreensível para o programador. Seu principal objetivo é interceptar erros de símbolos inválidos ou malformados durante a tokenização do código-fonte e exibir mensagens de erro bem localizadas e explicativas.
+
+```
+from antlr4.error.ErrorListener import ErrorListener
+
+class MyLexerErrorListener(ErrorListener):
+    def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
+        erro = msg.split(":")[-1].strip()
+        print(f"ERRO LÉXICO [Linha {line}, Coluna {column + 1}]: Símbolo '{erro}' inválido.")
+        print("-" * 60)
+```
+
+## Código com explicações linha a linha
+
+- `from antlr4.error.ErrorListener import ErrorListener`
+
+Importa a classe base ErrorListener do ANTLR, necessária para criar um ouvidor personalizado de erros.
+
+- `class MyLexerErrorListener(ErrorListener):`
+
+Cria uma subclasse chamada MyLexerErrorListener que herda os comportamentos da classe ErrorListener, permitindo sobrescrever o método syntaxError responsável pelos erros léxicos.
+
+- `def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):`
+
+Este método é automaticamente chamado pelo ANTLR sempre que ocorre um erro léxico.
+1. recognizer: o analisador léxico (Lexer)
+2. offendingSymbol: símbolo onde o erro foi detectado
+3. line e column: localização do erro no código
+4. msg: mensagem padrão de erro gerada pelo ANTLR
+5. e: exceção (RecognitionException) associada ao erro (pode ser None)
+
+
+- `erro = msg.split(":")[-1].strip()`
+
+Extrai apenas o símbolo inválido da mensagem completa do ANTLR. Isso torna o aviso mais limpo e direto, ignorando o restante do texto técnico.
+
+-`print(f"ERRO LÉXICO [Linha {line}, Coluna {column + 1}]: Símbolo '{erro}' inválido.")` 
+Exibe a mensagem personalizada no formato:
+```
+ERRO LÉXICO [Linha X, Coluna Y]: Símbolo '#' inválido.
+```
+Isso ajuda o programador a identificar com precisão o erro.
+
+- `print("-" * 60)`
+Adiciona uma linha de separação para destacar visualmente o erro no terminal.
+
+## Exemplo de Erro Detectado por MyLexerErrorListener
+```
+Código de entrada:
+int a = @;
+
+Saída esperada no terminal:
+ERRO LÉXICO [Linha 1, Coluna 9]: Símbolo '@' inválido.
+------------------------------------------------------------
+```
+
+A classe MyLexerErrorListener é fundamental para a usabilidade do compilador, pois:
+1. Melhora a compreensão de erros durante a análise léxica.
+2. Substitui mensagens técnicas e genéricas por algo claro e direto.
+3. Facilita a localização e correção rápida dos erros de digitação ou símbolos não permitidos na linguagem.
+
+
+# MyParserErrorListener
+
+A classe MyParserErrorListener estende o comportamento padrão do ANTLR para exibir mensagens de erro sintático personalizadas, facilitando a identificação e correção de problemas no código fonte.
+
+Interceptar e exibir erros de análise sintática com mensagens claras e contextualizadas, destacando o símbolo incorreto e a expectativa do compilador.
+
+```
+from antlr4.error.ErrorListener import ErrorListener
+import sys
+
+class MyParserErrorListener(ErrorListener):
+    def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
+        RED = "\033[91m"
+        RESET = "\033[0m"
+        simbolo = offendingSymbol.text if offendingSymbol else "símbolo desconhecido"
+
+        if simbolo == "<EOF>":
+            simbolo = "fim do arquivo"
+
+        # Tratamento de mensagens específicas com base no conteúdo da mensagem do ANTLR
+        if msg.startswith("missing"):
+            esperado = msg.split(" ")[1].strip("'")
+            if esperado == "';'":
+                print(f"{RED}ERRO SINTÁTICO [Linha {line}, Coluna {column + 1}]: Esperado ';' após '{simbolo}'{RESET}")
+            else:
+                print(f"{RED}ERRO SINTÁTICO [Linha {line}, Coluna {column + 1}]: Esperado {esperado} após '{simbolo}'{RESET}")
+
+        elif "no viable alternative" in msg:
+            print(f"{RED}ERRO SINTÁTICO [Linha {line}, Coluna {column + 1}]: Comando incompleto ou mal formado antes de '{simbolo}'{RESET}")
+
+        else:
+            print(f"{RED}ERRO SINTÁTICO [Linha {line}, Coluna {column + 1}]: {msg} próximo de '{simbolo}'{RESET}")
+
+        sys.exit(1)
+```
+
+- `from antlr4.error.ErrorListener import ErrorListener`
+
+Importa a classe base ErrorListener, que permite sobrescrever os métodos de tratamento de erro do ANTLR.
+
+- `import sys`
+
+Permite encerrar o programa com sys.exit(1) ao detectar um erro.
+
+- `class MyParserErrorListener(ErrorListener):`
+
+Cria uma subclasse de ErrorListener chamada MyParserErrorListener, usada para interceptar erros sintáticos.
+
+- `def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):`
+
+Este método é chamado automaticamente pelo ANTLR quando ocorre um erro de sintaxe.
+1. recognizer: o analisador sintático (parser)
+2. offendingSymbol: símbolo onde o erro ocorreu
+3. line e column: localização do erro no código-fonte
+4. msg: mensagem padrão gerada pelo ANTLR
+5. e: exceção lançada (pode ser None)
+
+- Códigos ANSI para colorir a mensagem de erro no terminal
+```
+RED = "\033[91m"
+RESET = "\033[0m"
+```
+Define cores para exibir erros em vermelho no terminal, tornando a leitura mais visível.
+
+- `simbolo = offendingSymbol.text if offendingSymbol else "símbolo desconhecido"`
+
+Tenta capturar o texto do símbolo ofensivo; caso não exista, usa uma mensagem padrão.
+
+- Exibe uma mensagem quando chega ao fim o arquivo 
+```
+if simbolo == "<EOF>":
+    simbolo = "fim do arquivo"
+```
+Melhora a clareza da mensagem ao interpretar EOF como “fim do arquivo”.
+
+## Tratamento de mensagens específicas
+
+- Verifica se o erro é de “símbolo ausente”
+
+Detecta mensagens de símbolo ausente (missing ';' at 'x') e extrai o token esperado.
+```
+if msg.startswith("missing"):
+    esperado = msg.split(" ")[1].strip("'")
+```
+
+- Mensagem personalizada e clara quando um ponto e vírgula é esquecido
+```
+if esperado == "';'":
+    print(f"{RED}ERRO SINTÁTICO [Linha {line}, Coluna {column + 1}]: Esperado ';' após '{simbolo}'{RESET}")
+```
+
+- Mensagem para outros símbolos ausentes, como `)`, `}` ou `,`
+```
+else:
+    print(f"{RED}ERRO SINTÁTICO [Linha {line}, Coluna {column + 1}]: Esperado {esperado} após '{simbolo}'{RESET}")
+```
+
+- Mensagens genéricas quando o parser não encontra nenhuma regra válida para seguir — normalmente por estruturas incompletas.
+
+```
+elif "no viable alternative" in msg:
+    print(f"{RED}ERRO SINTÁTICO [Linha {line}, Coluna {column + 1}]: Comando incompleto ou mal formado antes de '{simbolo}'{RESET}")
+```
+
+- Fallback: exibe a mensagem original do ANTLR com uma formatação amigável.
+
+```
+else:
+    print(f"{RED}ERRO SINTÁTICO [Linha {line}, Coluna {column + 1}]: {msg} próximo de '{simbolo}'{RESET}")
+```
+ ## Exemplos de erros comuns:
+
+1. Esquecendo ponto e vírgula:
+```
+int a = 1
+retorna 0;
+```
+Saída: `ERRO SINTÁTICO [Linha 2, Coluna 5]: Esperado ';' após 'a'`
+
+2. Estrutura incompleta:
+```
+se (x == 1) 
+retorna 0;
+```
+Saída: `ERRO SINTÁTICO [Linha 2, Coluna 1]: Comando incompleto ou mal formado antes de 'retorna'`
+
+
+
+
+
+
+
+
+
+

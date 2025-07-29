@@ -75,16 +75,6 @@ with open("saida_ast.dot", "w") as f:
     f.write("\n}")
 ```
 
-## 6. Integração com o Gerador TAC
-
-Se o argumento --gerar-tac for passado via terminal, o parser.py também chama a classe TACGenerator, responsável por transformar a árvore sintática em código intermediário (Three Address Code).
-
-```
-if "--gerar-tac" in argv:
-    tacgen = TACGenerator()
-    tacgen.visit(tree)
-    tacgen.salvar_em_arquivo("saida.tac")
-```
 # Importância dessa etapa
 
 A análise sintática garante que o código-fonte obedece à estrutura definida pela linguagem. Erros como:
@@ -101,56 +91,40 @@ Nessa parte vamos detalhar as classes criadas manualmente que compõem a etapa d
 
 # Parser.py
 
-Script principal da análise sintática. Suas funções:
-	1.	Lê o código-fonte.
-	2.	Gera tokens (com o lexer).
-	3.	Verifica a estrutura sintática com o parser.
-	4.	Chama o gerador de AST (árvore sintática).
-	5.	Gera a TAC, se necessário.
+O parser.py é o coração da etapa de análise sintática do seu compilador. Ele conecta:
+1. Leitura do código-fonte
+2. Análise léxica e sintática
+3. Tratamento de erros
+4. Visualização da árvore sintática
 
 ```
-from antlr4 import *                                        #importa todos os utilitários da biblioteca ANTLR4
-from CompiladorGVLexer import CompiladorGVLexer             #Importa a classe léxica gerada automaticamente pelo ANTLR a partir da gramática .g4. Essa classe é usada para converter o código-fonte em tokens.
-from CompiladorGVParser import CompiladorGVParser           #importa a classe do parser gerado pelo ANTLR. Essa classe define as regras de análise sintática da linguagem.
-from MyParserErrorListener import MyParserErrorListener     #importa uma classe personalizada que estende o comportamento padrão de tratamento de erros do ANTLR, permitindo exibir mensagens de erro sintático mais claras e customizadas.
-from ParseTreeGenerator import ParseTreeGenerator           #Importa uma classe visitante personalizada usada para percorrer a árvore sintática gerada e montar sua representação visual (AST).
+from antlr4 import *                                        
+from CompiladorGVLexer import CompiladorGVLexer             
+from CompiladorGVParser import CompiladorGVParser           
+from MyParserErrorListener import MyParserErrorListener     
+from ParseTreeGenerator import ParseTreeGenerator           
 import sys
 
-import TACGenerator
-
-
-#Define a função principal que será executada com os argumentos da linha de comando.
 def main(argv):
     if len(argv) < 2:
         print("Uso: python parser.py <arquivo_fonte>")
         return
 
-    input_stream = FileStream(argv[1], encoding='utf-8')    #Lê o conteúdo do arquivo-fonte informado via terminal como um stream de texto.
-    lexer = CompiladorGVLexer(input_stream)                 #Usa o lexer para gerar tokens a partir do conteúdo do arquivo.
-    tokens = CommonTokenStream(lexer)                       #Esses tokens são agrupados em um CommonTokenStream, necessário para o parser funcionar corretamente.
-    parser = CompiladorGVParser(tokens)                     #Cria uma instância do parser e alimenta com os tokens para iniciar a análise sintática.
+    input_stream = FileStream(argv[1], encoding='utf-8')    
+    lexer = CompiladorGVLexer(input_stream)                 
+    tokens = CommonTokenStream(lexer)                       
+    parser = CompiladorGVParser(tokens)                     
 
 
-    #Remove os tratadores de erro padrão do ANTLR e adiciona o personalizado 
     parser.removeErrorListeners()
     parser.addErrorListener(MyParserErrorListener())
 
-    
-
-    # Gerar TAC se ativado
-    if "--gerar-tac" in argv:
-        print("🚧 Etapa 4: Geração de Código Intermediário (TAC)")
-        tacgen = TACGenerator()
-        tacgen.visit(tree)
-        tacgen.salvar_em_arquivo("saida.tac")
-        print("✅ Código TAC gerado em 'saida.tac'")
-
     try:
-        tree = parser.inicio()  #Tenta executar a análise sintática chamando a regra inicial da gramática (inicio). O retorno é a árvore sintática (parse tree).
+        tree = parser.inicio()  
         visitor = ParseTreeGenerator()
         visitor.visit(tree)
 
-        #Cria um arquivo no formato DOT, que representa graficamente a árvore gerada (AST).
+        
         with open("saida_ast.dot", "w") as f:
             f.write("digraph AST {\n")
             f.write("\n".join(visitor.output))
@@ -219,8 +193,57 @@ Armazena todos os tokens gerados em uma estrutura especial (CommonTokenStream) q
 
 Cria uma instância do parser com os tokens recebidos. Esse parser validará se a sequência de tokens segue a sintaxe da linguagem.
 
-- ``
+- Remove as mensagem de erro padrão geradas pelo ANTLR
 
+```
+parser.removeErrorListeners()
+parser.addErrorListener(MyParserErrorListener())
+```
+Remove os ouvintes de erro padrão do ANTLR e adiciona o ouvinte personalizado MyParserErrorListener, que exibe mensagens de erro sintático mais compreensíveis e detalhadas.
+
+- Inicio visita aos ramos da arvoré AST
+
+Cria uma instância do visitante que vai percorrer a árvore sintática (Parse Tree) para gerar uma representação visual dela (AST).
+```
+visitor = ParseTreeGenerator()
+visitor.visit(tree)
+```
+
+- Criação do arquivo visual da árvore AST
+
+Cria um arquivo saida_ast.dot, no formato reconhecido pelo Graphviz, para visualizar a árvore sintática abstrata (AST). O conteúdo é montado a partir da lista visitor.output.
+```
+with open("saida_ast.dot", "w") as f:
+	f.write("digraph AST {\n")
+	f.write("\n".join(visitor.output))
+	f.write("\n}")
+```
+- Mensagem de confirmações
+
+Se tudo correr bem, exibe mensagens positivas confirmando que a análise sintática foi concluída e a AST foi salva com sucesso.
+
+```
+print("Programa analisado com sucesso! ✅")
+print("Arquivo 'saida_ast.dot' gerado com sucesso! 🌳")
+```
+
+- Ponto de parada, caso haja alguma exceção
+
+Se qualquer exceção for levantada durante a análise sintática, essa parte captura e imprime o erro com formatação em vermelho, e encerra o programa com erro (exit code 1).
+
+```
+except Exception as e:
+	print(f"\033[91mErro durante a análise: {e}\033[0m")
+	sys.exit(1)
+```
+
+- Chamada do main
+
+Ponto de entrada do script. Executa a função main() passando os argumentos recebidos da linha de comando (nome do arquivo-fonte)
+```
+if __name__ == '__main__':
+    main(sys.argv)
+```
 
 # MyParserErrorListener
 
@@ -257,6 +280,9 @@ class MyParserErrorListener(ErrorListener):
 
         sys.exit(1)
 ```
+
+## Código com explicações linha a linha
+
 
 - `from antlr4.error.ErrorListener import ErrorListener`
 
@@ -349,12 +375,156 @@ retorna 0;
 Saída: `ERRO SINTÁTICO [Linha 2, Coluna 1]: Comando incompleto ou mal formado antes de 'retorna'`
 
 
+# ParseTreeGenerator
+
+Responsável por gerar a representação gráfica da Árvore de Derivação (Parse Tree) do seu código-fonte com base na gramática definida. Esse script é extremamente útil para visualizar como o código está sendo interpretado pelo parser do compilador e pode te ajudar muito na depuração e entendimento de estruturas complexas.
+
+O que essa classe faz, em resumo?
+- Percorre toda a árvore sintática construída pelo ANTLR.
+- Para cada regra ou token visitado, gera um nó com nome legível.
+- Adiciona ligações entre os nós, formando um grafo em formato DOT.
+- Permite a visualização gráfica da estrutura do código, o que é crucial para debug, ensino e entendimento da linguagem.
+
+```
+from antlr4 import *
+
+class ParseTreeGenerator:
+    def __init__(self):
+        self.node_counter = 0
+        self.output = []
 
 
+    def new_node(self, label):
+        node_name = f"n{self.node_counter}"
+        # Corrige problema de aspas internas no label
+        label = label.replace('"', r'\"')
+        self.output.append(f'{node_name} [label="{label}"];')
+        self.node_counter += 1
+        return node_name
 
 
+    def add_edge(self, parent, child):
+        self.output.append(f"{parent} -> {child};")
+
+    def visit(self, ctx):
+        if ctx is None:
+            return self.new_node("null")
+
+        if isinstance(ctx, TerminalNode):
+            # Para tokens terminais (ex: palavras-chave, símbolos)
+            return self.new_node(f"'{ctx.getText()}'")
+
+        # Para regras da gramática
+        rule_name = type(ctx).__name__.replace("Context", "")
+        node = self.new_node(rule_name)
+
+        for i in range(ctx.getChildCount()):
+            child = ctx.getChild(i)
+            child_node = self.visit(child)
+            self.add_edge(node, child_node)
+
+        return node
+```
+
+## Código com explicações linha a linha
+
+- `from antlr4 import *`
+
+Importa os recursos da biblioteca ANTLR4, incluindo:
+
+1. ParserRuleContext (classe base de todos os nós da árvore)
+2. TerminalNode (representa um token terminal como int, ;, +, etc.)
 
 
+- `class ParseTreeGenerator:`
+
+Define a classe ParseTreeGenerator, que será usada para visitar a árvore sintática e gerar sua representação em formato de grafo (.dot), usada para desenhar a árvore de derivação com ferramentas como o Graphviz.
+
+- Método construtor da classe
+
+```
+def __init__(self):
+	self.node_counter = 0
+	self.output = []
+```
+1. self.node_counter: contador numérico para dar nomes únicos aos nós da árvore (n0, n1, n2, ...).
+2. self.output: lista de strings que armazenará linhas do grafo em formato DOT, como:
+
+```
+n0 [label="Expressao"];
+n0 -> n1;
+```
+
+- Método auxiliar que cria um novo nó da árvore
+
+```
+def new_node(self, label):
+        node_name = f"n{self.node_counter}"
+        # Corrige problema de aspas internas no label
+        label = label.replace('"', r'\"')
+        self.output.append(f'{node_name} [label="{label}"];')
+        self.node_counter += 1
+        return node_name
+```
+1. label: nome do nó (como Expressao, ID, +, etc).
+2. node_name: nome interno do nó no grafo, como n3.
+3. Corrige possíveis aspas internas no rótulo para evitar erros no DOT.
+4. Armazena a linha correspondente no output e retorna o nome do nó criado.
+Exemplo de saída: `n4 [label="Expressao"];`
+
+- Método auxiliar para adicionar uma aresta (ligação) entre dois nós da árvore no grafo. Recebe os nomes dos nós parent e child.
+
+```
+    def add_edge(self, parent, child):
+        self.output.append(f"{parent} -> {child};")
+```
+Exemplo de saída: `n1 -> n2;`
 
 
+- `def visit(self, ctx):`
+Método principal que percorre recursivamente a árvore sintática gerada pelo parser.
 
+O argumento ctx (context): representa um nó da árvore (pode ser terminal ou não-terminal).
+
+- Tratamento de especial caso haja um nó nulo
+
+Caso o contexto seja nulo (nó inexistente), cria um nó especial com o rótulo "null", apenas para manter a estrutura da árvore intacta.
+
+```
+if ctx is None:
+	return self.new_node("null")
+```
+
+- Criação de nó "terminal"
+
+Se o nó for um terminal da linguagem (ex: `"+"`, `"int"`, `"main"`, etc), cria um nó com o texto do token e encerra a recursão nesse ramo.
+
+```
+if isinstance(ctx, TerminalNode):
+	return self.new_node(f"'{ctx.getText()}'")
+```
+
+- Criação de nó interno
+
+Se for um nó interno da árvore (ou seja, uma regra da gramática como Expressao, Comando, Bloco, etc), extrai o nome da regra removendo "Context" e cria o nó com esse rótulo.
+
+```
+rule_name = type(ctx).__name__.replace("Context", "")
+node = self.new_node(rule_name)
+```
+
+- Percorre todos os filhos do nó atual, chamando visit() recursivamente para cada um:
+
+```
+for i in range(ctx.getChildCount()):
+	child = ctx.getChild(i)
+	child_node = self.visit(child)
+	self.add_edge(node, child_node)
+```
+1.	Visita o filho.
+2.	Cria o nó correspondente.
+3.	Adiciona uma aresta entre o nó atual e seu filho.
+
+- `return node`
+
+Retorna o nome do nó atual, permitindo que a recursão monte a árvore completa corretamente.

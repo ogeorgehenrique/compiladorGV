@@ -28,18 +28,18 @@ def main():
     stream = CommonTokenStream(lexer)
     parser = CompiladorGVParser(stream)
 
-    print("🧩 Etapa 1: Análise sintática...")
+    print("Etapa 1: Análise sintática...")
     tree = parser.inicio()
 
     # 🔹 AST Builder
-    print("🌲 Etapa 2: Construindo AST...")
+    print("Etapa 2: Construindo AST...")
     builder = ASTBuilderVisitor()
     ast = builder.visit(tree)
     print(json.dumps(ast, indent=2, ensure_ascii=False))
 
 
     # 🔹 Análise semântica
-    print("🧠 Etapa 3: Análise semântica...")
+    print("Etapa 3: Análise semântica...")
     analyzer = SemanticAnalyzer()
     analyzer.analyze(ast)
     # Exibir erros, se houver

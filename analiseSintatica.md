@@ -85,7 +85,7 @@ A análise sintática garante que o código-fonte obedece à estrutura definida 
 
 são detectados aqui. Sem passar nessa etapa, o código não pode avançar para a geração de código intermediário ou execução.
 
-# Entendendo o Código
+## Entendendo o Código
 
 Nessa parte vamos detalhar as classes criadas manualmente que compõem a etapa de análise sintática do compilador:
 

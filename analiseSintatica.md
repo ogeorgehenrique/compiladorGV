@@ -528,3 +528,19 @@ for i in range(ctx.getChildCount()):
 - `return node`
 
 Retorna o nome do nó atual, permitindo que a recursão monte a árvore completa corretamente.
+
+**Exemplo de saída .dot gerada por essa classe:**
+```
+digraph AST {
+n0 [label="Inicio"];
+n1 [label="'int'"];
+n2 [label="'main'"];
+n3 [label="'('"];
+n4 [label="parametros"];
+...
+n0 -> n1;
+n0 -> n2;
+...
+}
+```
+

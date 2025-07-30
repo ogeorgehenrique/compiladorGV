@@ -699,8 +699,100 @@ Se houver erros, eles serão listados com informações como:
 [Linha 20, Coluna 10] Tipo incompatível em atribuição: esperado int, encontrado string
 ```
 
+# SymbolTable.py
 
+A SymbolTable (Tabela de Símbolos) é uma estrutura fundamental na análise semântica de um compilador.
+Ela serve para armazenar e gerenciar informações sobre identificadores do programa, como variáveis, funções e parâmetros — incluindo seus nomes, tipos e escopos.
 
+# O que essa implementação faz?
+
+Essa versão da SymbolTable trabalha com escopos empilhados, permitindo que o compilador reconheça:
+- Variáveis locais e globais
+- Parâmetros de funções
+- Ocultação de variáveis (shadowing)
+- Fim de escopos (como fim de blocos {} ou funções)
+
+# Código de SymbolTable.py
+```
+class SymbolTable:
+    def __init__(self):
+        self.scopes = [{}]
+
+    def push_scope(self):
+        self.scopes.append({})
+
+    def pop_scope(self):
+        self.scopes.pop()
+
+    def define(self, name, info):
+        self.scopes[-1][name] = info
+
+    def lookup(self, name):
+        for scope in reversed(self.scopes):
+            if name in scope:
+                return scope[name]
+        return None
+
+```
+
+# Explicação dos métodos
+
+| Método         | Função                                                                 |
+|----------------|------------------------------------------------------------------------|
+| `__init__()`   | Inicializa com uma pilha de escopos, começando pelo escopo global.     |
+| `push_scope()` | Adiciona um novo escopo (ex: quando entra em uma função ou bloco).     |
+| `pop_scope()`  | Remove o escopo atual (ex: ao sair de uma função/bloco).               |
+| `define(name, info)` | Define (declara) um símbolo no escopo atual. Ex: `int x = 10;`   |
+| `lookup(name)` | Busca um símbolo de forma hierárquica, do escopo mais interno para o mais externo. |
+
+## Como funciona internamente
+
+```
+self.scopes = [{}]
+```
+1. self.scopes é uma lista de dicionários, onde cada dicionário representa um escopo.
+2. O último item da lista representa o escopo atual.
+
+Por exemplo:
+```
+[
+  {"x": {"type": "int"}},             # escopo global
+  {"x": {"type": "string"}}           # escopo atual (local)
+]
+```
+Se x for procurado com lookup("x"), ele retorna a versão mais interna.
+
+Exemplo prático
+
+Suponha o código:
+```
+int x = 10;
+void funcao() {
+    int x = 20;
+    escreve(x); // <- usa o x local
+}
+```
+A SymbolTable vai funcionar assim:
+	1.	No escopo global: define x = 10
+	2.	Ao entrar em funcao(): push_scope() cria novo escopo
+	3.	Define x = 20 localmente
+	4.	lookup("x") encontra primeiro o x local
+	5.	Ao sair da função: pop_scope() remove o escopo local
+
+## Exemplo de uso típico
+
+```
+tabela = SymbolTable()
+tabela.define("x", {"type": "int"})
+print(tabela.lookup("x"))  # {'type': 'int'}
+
+tabela.push_scope()
+tabela.define("x", {"type": "string"})
+print(tabela.lookup("x"))  # {'type': 'string'}
+
+tabela.pop_scope()
+print(tabela.lookup("x"))  # {'type': 'int'}
+```
 
 
 

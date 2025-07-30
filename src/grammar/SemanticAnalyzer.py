@@ -9,7 +9,8 @@ class SemanticAnalyzer:
 
     def error(self, message, node=None):
         if node and "line" in node and "column" in node:
-            message = f"[Linha {node['line']}, Coluna {node['column']}] {message}"
+            # message = f"[Linha {node['line']}, Coluna {node['column']}] {message}"
+            message = f"\033[91m[Linha {node['line']}, Coluna {node['column']}] {message}\033[0m"
         self.errors.append(message)
 
     def visit(self, node):

@@ -29,8 +29,13 @@ def main(argv):
             f.write("digraph AST {\n")
             f.write("\n".join(visitor.output))
             f.write("\n}")
+
+        print("#=" * 40)
         print("Programa analisado com sucesso! ✅")
+        print("")
         print("Arquivo 'saida_ast.dot' gerado com sucesso! 🌳")
+        print("#=" * 40)
+        
     except Exception as e:
         print(f"\033[91mErro durante a análise: {e}\033[0m")
         sys.exit(1)

@@ -1,8 +1,8 @@
 int main(){
     q = 2;
-    int e
+    int e;
     int a = 1/0;
     int a;
-    int q/0;
+    int q0;
     retorna 0;
 }
